@@ -13,7 +13,7 @@ import { useSetupStore } from '../stores/setup';
 
   const startGame = () => {
     store.startRoundForPlayer();
-    router.push({name: 'SelectThrowPoints'});
+    router.push({name: 'AddThrowPoints'});
   }
 </script>
 

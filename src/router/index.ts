@@ -66,7 +66,7 @@ const routes = [
         children: [
           {
             path: "/round-review",
-            name: "PlayerRoundSummary",
+            name: "PlayerRoundReview",
             component: import("../pages/PlayerRoundReview.vue"),
             meta: {
               title: "Player round review",

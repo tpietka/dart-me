@@ -10,12 +10,7 @@ export class Round {
     this.startingPoints = startingPoints;
     this.roundNumber = roundNumber;
   }
-  setThrow(throwNumber: number, score: number) {
-    this.throws.push(new DartThrow(score, throwNumber));
-  }
-  setMultiplier(throwNumber: number, multiplier: number) {
-    this.throws
-      .find((x) => x.throwNumber === throwNumber)
-      ?.setMultiplier(multiplier);
+  setThrow(dartThrow: DartThrow) {
+    this.throws.push(dartThrow);
   }
 }

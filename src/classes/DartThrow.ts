@@ -1,18 +1,19 @@
 export class DartThrow {
   throwNumber: number;
-  score: number;
+  points: number = 0;
   multiplier: number = 1;
 
-  constructor(score: number, throwNumber: number) {
-    this.score = score;
+  constructor(throwNumber: number) {
     this.throwNumber = throwNumber;
   }
-
+  setPoints(points: number) {
+    this.points = points;
+  }
   setMultiplier(multiplier: number) {
     this.multiplier = multiplier;
   }
 
   getScore() {
-    return this.score * this.multiplier;
+    return this.points * this.multiplier;
   }
 }
