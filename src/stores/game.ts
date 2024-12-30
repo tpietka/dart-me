@@ -17,6 +17,14 @@ export const useGameStore = defineStore("game", {
     currentPlayer: null,
     startingPoints: 0,
   }),
+  getters: {
+    pointsLeft(): number {
+      return (
+        this.currentPlayer?.rounds.find((x) => x.roundNumber == this.round)
+          ?.pointsLeft ?? this.startingPoints
+      );
+    },
+  },
   actions: {
     createGame(players: string[], gameType: GameType) {
       this.startingPoints =
@@ -44,20 +52,14 @@ export const useGameStore = defineStore("game", {
           this.currentPlayer = this.players[0];
         }
       } else {
-        const currentPlayerIndex = this.players.indexOf(this.currentPlayer);
-        this.currentPlayer = this.players[currentPlayerIndex + 1];
+        const nextPlayerIndex =
+          (this.players.indexOf(this.currentPlayer) + 1) % this.players.length;
+        this.currentPlayer = this.players[nextPlayerIndex];
       }
     },
     addDartThrow(dartThrow: DartThrow) {
       const lastRound = this.getLastRound();
       lastRound?.setThrow(dartThrow);
-      if (lastRound?.throws.length === 3) {
-        let throwsSum = 0;
-        lastRound.throws.forEach((dartThrow) => {
-          throwsSum += dartThrow.getScore();
-        });
-        lastRound.pointsLeft = lastRound.pointsLeft - throwsSum;
-      }
     },
     isEndOfRound() {
       return this.players.every(

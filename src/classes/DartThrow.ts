@@ -12,8 +12,10 @@ export class DartThrow {
   setMultiplier(multiplier: number) {
     this.multiplier = multiplier;
   }
-
   getScore() {
     return this.points * this.multiplier;
+  }
+  isDouble() {
+    return this.multiplier === 2;
   }
 }

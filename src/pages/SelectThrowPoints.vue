@@ -2,13 +2,13 @@
 import { useRouter } from 'vue-router';
 import { useGameStore } from '../stores/game';
 import { DartThrow } from '../classes/DartThrow';
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 
-  const store = useGameStore(); 
+  const {currentPlayer, round, pointsLeft} = toRefs(useGameStore()); 
+  const {addDartThrow} = useGameStore();
   const router = useRouter();
   const throwNumber = ref(1);
   const dartThrow = ref<DartThrow>(new DartThrow(throwNumber.value));
-    console.log(store.currentPlayer);
 
   const setPoints = (points: number) => {
     dartThrow.value.setPoints(points);
@@ -17,7 +17,7 @@ import { ref } from 'vue';
     dartThrow.value.setMultiplier(multiplier);
   }
   const saveThrow = () => {
-    store.addDartThrow(dartThrow.value);
+    addDartThrow(dartThrow.value);
     throwNumber.value++;
     if(throwNumber.value > 3) {
       return router.push({name: 'PlayerRoundReview'});
@@ -26,8 +26,10 @@ import { ref } from 'vue';
   }
 </script>
 <template>
-  {{ store.currentPlayer }}
-  <h1>{{`Round ${store.round}` }} - {{ `${throwNumber}/3` }} - {{ store.currentPlayer?.name }}</h1>
+  <div>
+    {{ `Player: ${currentPlayer?.name}` }} {{ `Points left: ${pointsLeft}` }}
+  </div>
+  <h1>{{`Round ${round}` }} - {{ `Throw ${throwNumber}/3` }}</h1>
   <div class="flex">
     <div @click="setPoints(n)" v-for="n in 20" :key="n">{{ n }}</div>
     <div @click="setPoints(25)">25</div>
