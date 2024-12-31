@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import { useSetupStore } from "../../stores/setup";
-  const store = useSetupStore();
+  import { toRefs } from "vue";
+import { useSetupStore } from "../../stores/setup";
+  const { gameType } = toRefs(useSetupStore());
 </script>
 
 <template>
-  {{store.gameType}}
+  {{ gameType }}
   {{ $route.meta.title }}
   <router-view/>
 </template>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useGameStore } from '../stores/game';
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, toRefs } from 'vue';
 import { useSetupStore } from '../stores/setup';
   const setupStore = useSetupStore();
-  const {game, createGame} = useGameStore(); 
+  const {createGame} = useGameStore(); 
+  const {game} = toRefs(useGameStore());
   const router = useRouter();
 
   onBeforeMount(() => {
@@ -12,7 +13,7 @@ import { useSetupStore } from '../stores/setup';
   })
 
   const startGame = () => {
-    game?.startRoundForPlayer();
+    game.value?.startRoundForPlayer();
     router.push({name: 'AddThrowPoints'});
   }
 </script>
