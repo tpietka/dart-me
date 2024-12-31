@@ -80,14 +80,6 @@ const routes = [
               title: "Select points",
             },
           },
-          {
-            path: "/select-multiplier",
-            name: "AddThrowMultiplier",
-            component: import("../pages/SelectThrowMultiplier.vue"),
-            meta: {
-              title: "Select multiplier",
-            },
-          },
         ],
       },
     ],

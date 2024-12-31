@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router';
 import { useGameStore } from '../stores/game';
 
-  const {currentPlayer, getLastRound, startRoundForPlayer} = useGameStore(); 
+  const {currentPlayer, startRoundForPlayer} = useGameStore(); 
   const router = useRouter();
   const nextPlayer = () => {
     startRoundForPlayer();
@@ -12,9 +12,12 @@ import { useGameStore } from '../stores/game';
 
 <template>
   <div>
-    {{ `Player: ${currentPlayer?.name}` }} -  {{ `Poinst scored: ${getLastRound()?.pointsScored}` }}
+    {{ `Player: ${currentPlayer?.getName()}` }} -  {{ `Poinst scored: ${currentPlayer?.getActiveRound()?.getScoredPoints()}` }}
     </div><div>
-    {{ `Poinst left: ${getLastRound()?.pointsLeft}` }}
+    {{ `Poinst left: ${currentPlayer?.getActiveRound()?.getPointsLeft()}` }}
   </div>
+  <!-- TODO: Add dart board svg with highlighted hit segments -->
+
+  <!-- TODO: Add option to edit throws -->
   <button @click="nextPlayer">Next player</button>
 </template>

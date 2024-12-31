@@ -1,76 +1,66 @@
 import { defineStore } from "pinia";
-import { Player } from "../classes/Player";
-import { Round } from "../classes/Round";
-import { DartThrow } from "../classes/DartThrow";
+import { DartThrow, IDartThrow } from "../classes/DartThrow";
+import { Game, IGame } from "../classes/Game";
+import { IPlayer, Player } from "../classes/Player";
 export type GameType = "301" | "501" | "practice";
 
 interface GameState {
-  players: Player[];
-  round: number;
-  currentPlayer: Player | null;
-  startingPoints: number;
+  game: IGame | null;
 }
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
-    players: [],
-    round: 1,
-    currentPlayer: null,
-    startingPoints: 0,
+    game: null,
   }),
   getters: {
     pointsLeft(): number {
+      if (!this.game) {
+        return 0;
+      }
       return (
-        this.currentPlayer?.rounds.find((x) => x.roundNumber == this.round)
-          ?.pointsLeft ?? this.startingPoints
+        this.game.getCurrentPlayer()?.getActiveRound()?.getPointsLeft() ??
+        this.game.startingPoints
       );
+    },
+    currentPlayer(): IPlayer | null {
+      if (!this.game) {
+        return null;
+      }
+      return this.game.getCurrentPlayer();
+    },
+    round(): number {
+      if (!this.game) {
+        return 0;
+      }
+      return this.game.getRoundNumber();
     },
   },
   actions: {
-    createGame(players: string[], gameType: GameType) {
-      this.startingPoints =
+    createGame(players: string[], gameType: GameType): void {
+      const startingPoints =
         gameType === "practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType);
-      players.forEach((player) => {
-        this.players.push({
-          name: player,
-          rounds: [],
-        });
+      this.game = new Game(gameType, startingPoints);
+      this.createPlayers(players);
+    },
+    createPlayers(players: string[]): void {
+      if (!this.game) {
+        return;
+      }
+      players.forEach((playerName) => {
+        this.game?.addPlayer(new Player(playerName));
       });
     },
-    startRoundForPlayer() {
-      this.nextPlayer();
-      if (this.isEndOfRound()) {
-        this.nextRound();
+    startRoundForPlayer(): void {
+      if (!this.game) {
+        return;
       }
-      const lastRound = this.getLastRound();
-      this.currentPlayer?.rounds.push(
-        new Round(lastRound?.pointsLeft ?? this.startingPoints, this.round)
-      );
+      this.game.startRoundForPlayer();
     },
-    nextPlayer() {
-      if (!this.currentPlayer) {
-        {
-          this.currentPlayer = this.players[0];
-        }
-      } else {
-        const nextPlayerIndex =
-          (this.players.indexOf(this.currentPlayer) + 1) % this.players.length;
-        this.currentPlayer = this.players[nextPlayerIndex];
+    addDartThrow(dartThrow: IDartThrow): void {
+      if (!this.game) {
+        return;
       }
-    },
-    addDartThrow(dartThrow: DartThrow) {
-      const lastRound = this.getLastRound();
-      lastRound?.setThrow(dartThrow);
-    },
-    isEndOfRound() {
-      return this.players.every(
-        (player) => player.rounds.length === this.round
-      );
-    },
-    nextRound() {
-      this.round++;
-    },
-    getLastRound() {
-      return this.currentPlayer?.rounds[this.currentPlayer.rounds.length - 1];
+      const activeRound = this.game.getCurrentPlayer()?.getActiveRound();
+      activeRound?.setThrow(dartThrow);
     },
   },
 });

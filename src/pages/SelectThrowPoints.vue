@@ -1,19 +1,21 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useGameStore } from '../stores/game';
-import { DartThrow } from '../classes/DartThrow';
+import { DartThrow, IDartThrow } from '../classes/DartThrow';
 import { ref, toRefs } from 'vue';
+import ThrowPoints from '../components/ThrowPoints.vue';
+import ThrowMultiplier from '../components/ThrowMultiplier.vue';
 
   const {currentPlayer, round, pointsLeft} = toRefs(useGameStore()); 
   const {addDartThrow} = useGameStore();
   const router = useRouter();
   const throwNumber = ref(1);
-  const dartThrow = ref<DartThrow>(new DartThrow(throwNumber.value));
+  const dartThrow = ref<IDartThrow>(new DartThrow(throwNumber.value));
 
-  const setPoints = (points: number) => {
+  const setPoints = (points: number): void => {
     dartThrow.value.setPoints(points);
   }
-  const setMultiplier = (multiplier: number) => {
+  const setMultiplier = (multiplier: number): void => {
     dartThrow.value.setMultiplier(multiplier);
   }
   const saveThrow = () => {
@@ -27,20 +29,20 @@ import { ref, toRefs } from 'vue';
 </script>
 <template>
   <div>
-    {{ `Player: ${currentPlayer?.name}` }} {{ `Points left: ${pointsLeft}` }}
+    {{ `Player: ${currentPlayer?.getName()}` }} {{ `Points left: ${pointsLeft}` }}
   </div>
   <h1>{{`Round ${round}` }} - {{ `Throw ${throwNumber}/3` }}</h1>
-  <div class="flex">
-    <div @click="setPoints(n)" v-for="n in 20" :key="n">{{ n }}</div>
-    <div @click="setPoints(25)">25</div>
-    <div @click="setPoints(50)">50</div>
+  <div style="display: flex; flex-wrap: wrap;">
+    <throw-points @click="setPoints(n)" v-for="n in 20" :key="n">{{ n }}</throw-points>
+    <throw-points @click="setPoints(25)">25</throw-points>
+    <throw-points @click="setPoints(50)">50</throw-points>
   </div> 
-  <div class="flex">
-    <div @click="setMultiplier(1)">Single</div>
-    <div @click="setMultiplier(2)">Double</div>
-    <div @click="setMultiplier(3)">Triple</div>
+  <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+    <throw-multiplier @click="setMultiplier(1)">Single</throw-multiplier>
+    <throw-multiplier @click="setMultiplier(2)">Double</throw-multiplier>
+    <throw-multiplier @click="setMultiplier(3)">Triple</throw-multiplier>
   </div> 
 
-  {{ dartThrow.points }} - {{ dartThrow.multiplier }}
+  {{ dartThrow.getScore() }}
   <button @click="saveThrow()">Save</button>
 </template>
