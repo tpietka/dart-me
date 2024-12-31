@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import { DartThrow, IDartThrow } from "../classes/DartThrow";
+import { IDartThrow } from "../classes/DartThrow";
 import { Game, IGame } from "../classes/Game";
 import { IPlayer, Player } from "../classes/Player";
+import { GameNotStartedException } from "../exceptions/GameNotStartedException";
 export type GameType = "301" | "501" | "practice";
 
 interface GameState {
@@ -35,6 +36,17 @@ export const useGameStore = defineStore("game", {
     },
   },
   actions: {
+    getWinner(): IPlayer | null {
+      this.ensureGameStarted();
+      const winner = this.game?.getWinner();
+      if (!winner) {
+        return null;
+      }
+      return winner;
+    },
+    removeGame(): void {
+      this.game = null;
+    },
     createGame(players: string[], gameType: GameType): void {
       const startingPoints =
         gameType === "practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType);
@@ -42,25 +54,24 @@ export const useGameStore = defineStore("game", {
       this.createPlayers(players);
     },
     createPlayers(players: string[]): void {
-      if (!this.game) {
-        return;
-      }
+      this.ensureGameStarted();
       players.forEach((playerName) => {
         this.game?.addPlayer(new Player(playerName));
       });
     },
     startRoundForPlayer(): void {
-      if (!this.game) {
-        return;
-      }
-      this.game.startRoundForPlayer();
+      this.ensureGameStarted();
+      this.game?.startRoundForPlayer();
     },
     addDartThrow(dartThrow: IDartThrow): void {
-      if (!this.game) {
-        return;
-      }
-      const activeRound = this.game.getCurrentPlayer()?.getActiveRound();
+      this.ensureGameStarted();
+      const activeRound = this.game?.getCurrentPlayer()?.getActiveRound();
       activeRound?.setThrow(dartThrow);
+    },
+    ensureGameStarted(): void {
+      if (!this.game) {
+        throw new GameNotStartedException("Game not created yet");
+      }
     },
   },
 });

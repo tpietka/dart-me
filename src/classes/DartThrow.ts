@@ -1,4 +1,6 @@
 export interface IDartThrow {
+  points: number;
+  multiplier: number;
   setPoints(points: number): void;
   setMultiplier(multiplier: number): void;
   getScore(): number;
@@ -7,8 +9,8 @@ export interface IDartThrow {
 
 export class DartThrow implements IDartThrow {
   private throwNumber: number;
-  private points: number = 0;
-  private multiplier: number = 1;
+  public points: number = 0;
+  public multiplier: number = 1;
 
   constructor(throwNumber: number) {
     this.throwNumber = throwNumber;

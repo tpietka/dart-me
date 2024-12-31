@@ -22,13 +22,13 @@ export class Round implements IRound {
   }
   public setThrow(dartThrow: IDartThrow): void {
     this.throws.push(dartThrow);
-    this.pointsLeft = this.calculatePointsLeft();
-    if (this.pointsLeft === 0) {
-      if (!this.wasLastThrowDouble()) {
-        this.pointsLeft = this.startingPoints;
-        return;
-      }
+    this.pointsLeft -= dartThrow.getScore();
+    if (this.isBust()) {
+      this.resetPoints();
+      this.pointsScored = 0;
+      return;
     }
+    this.calculatePointsScored();
   }
   public getPointsLeft(): number {
     return this.pointsLeft;
@@ -42,17 +42,21 @@ export class Round implements IRound {
   public getRoundNumber(): number {
     return this.roundNumber;
   }
-  private calculatePointsLeft(): number {
+  private isBust(): boolean {
+    return !this.isWinningThrow() && this.pointsLeft < 2;
+  }
+  private isWinningThrow(): boolean {
+    return this.pointsLeft === 0 && this.wasLastThrowDouble();
+  }
+  private resetPoints(): void {
+    this.pointsLeft = this.startingPoints;
+  }
+  private calculatePointsScored(): void {
     let throwsSum = 0;
     this.throws.forEach((dartThrow) => {
       throwsSum += dartThrow.getScore();
     });
     this.pointsScored = throwsSum;
-    const pointsLeft = this.startingPoints - throwsSum;
-    if (pointsLeft < 0) {
-      return 0;
-    }
-    return pointsLeft;
   }
   private wasLastThrowDouble(): boolean {
     return this.throws[this.throws.length - 1].isDouble();

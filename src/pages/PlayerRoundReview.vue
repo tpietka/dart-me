@@ -1,13 +1,23 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { useGameStore } from '../stores/game';
+  import { useRouter } from 'vue-router';
+  import { onBeforeMount, toRefs } from 'vue';
+  import { useGameStore } from '../stores/game';
+  import BaseButton from '../components/common/BaseButton.vue';
 
-  const {currentPlayer, startRoundForPlayer} = useGameStore(); 
+  const {currentPlayer} = toRefs(useGameStore()); 
+  const {startRoundForPlayer} = useGameStore(); 
   const router = useRouter();
   const nextPlayer = () => {
     startRoundForPlayer();
     router.push({name: 'AddThrowPoints'});
   }
+
+  onBeforeMount(() => {
+    console.log(currentPlayer.value);
+    if (currentPlayer.value?.hasWon()) {
+      router.push({name: 'WinnerDetails'});
+    }
+  });
 </script>
 
 <template>
@@ -19,5 +29,5 @@ import { useGameStore } from '../stores/game';
   <!-- TODO: Add dart board svg with highlighted hit segments -->
 
   <!-- TODO: Add option to edit throws -->
-  <button @click="nextPlayer">Next player</button>
+  <base-button @click="nextPlayer">Next player</base-button>
 </template>

@@ -10,6 +10,7 @@ export interface IGame {
   getRoundNumber(): number;
   startRoundForPlayer(): void;
   getWinner(): IPlayer | null;
+  isGameFinished(): boolean;
   getPlayersNames(): string[];
 }
 
@@ -35,7 +36,7 @@ export class Game implements IGame {
   getRoundNumber(): number {
     return this.round;
   }
-  isGameFinished(): boolean {
+  public isGameFinished(): boolean {
     if (this.currentPlayer?.hasWon()) {
       this.winner = this.currentPlayer;
       return true;

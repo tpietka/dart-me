@@ -52,6 +52,14 @@ const routes = [
         },
       },
       {
+        path: "winner",
+        name: "WinnerDetails",
+        component: import("../pages/WinnerDetails.vue"),
+        meta: {
+          title: "Winner",
+        },
+      },
+      {
         path: "/round-summary",
         name: "RoundSummary",
         component: import("../pages/RoundSummary.vue"),

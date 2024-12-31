@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { useGameStore } from '../stores/game';
-import { onBeforeMount, toRefs } from 'vue';
-import { useSetupStore } from '../stores/setup';
+  import { useRouter } from 'vue-router';
+  import { useGameStore } from '../stores/game';
+  import { onBeforeMount, toRefs } from 'vue';
+  import { useSetupStore } from '../stores/setup';
+  import BaseButton from '../components/common/BaseButton.vue';
+
   const setupStore = useSetupStore();
   const {createGame} = useGameStore(); 
   const {game} = toRefs(useGameStore());
@@ -19,8 +21,12 @@ import { useSetupStore } from '../stores/setup';
 </script>
 
 <template>
+  <div>Players</div>
+  <div class="flex flex-col gap-2">
   <div v-for="playerName in game?.getPlayersNames()" :key="playerName">
-    {{ playerName }} - {{ game?.startingPoints }}
+    <span>{{ playerName }} - {{ game?.startingPoints }}</span>
   </div>
-  <button @click="startGame()">Next</button>
+
+  </div>
+  <base-button class="mt-4" @click="startGame()">Next</base-button>
 </template>
