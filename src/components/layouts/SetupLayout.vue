@@ -1,11 +1,14 @@
 <script setup lang="ts">
   import { toRefs } from "vue";
-import { useSetupStore } from "../../stores/setup";
+  import { useSetupStore } from "../../stores/setup";
+  import ContentContainer from "../common/ContentContainer.vue";
   const { gameType } = toRefs(useSetupStore());
 </script>
 
 <template>
   {{ gameType }}
   {{ $route.meta.title }}
-  <router-view/>
+  <content-container>
+    <router-view/>
+  </content-container>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import { useSetupStore } from '../stores/setup';
+import BaseOption from '../components/common/BaseOption.vue';
 
   const store = useSetupStore(); 
   const router = useRouter();
@@ -12,10 +13,10 @@ import { useSetupStore } from '../stores/setup';
 </script>
 
 <template>
-  <div>  
-    <button @click="selectPlayersCount(1)">1</button> 
-    <button @click="selectPlayersCount(2)">2</button> 
-    <button @click="selectPlayersCount(3)">3</button> 
-    <button @click="selectPlayersCount(4)">4</button> 
+  <div class="flex flex-col gap-2">  
+    <base-option @click="selectPlayersCount(1)">1</base-option>
+    <base-option @click="selectPlayersCount(2)">2</base-option>
+    <base-option @click="selectPlayersCount(3)">3</base-option>
+    <base-option @click="selectPlayersCount(4)">4</base-option>
   </div>
 </template>
