@@ -5,13 +5,13 @@
   import { useSetupStore } from '../stores/setup';
   import BaseButton from '../components/common/BaseButton.vue';
 
-  const setupStore = useSetupStore();
+  const {players, gameType} = useSetupStore();
   const {createGame} = useGameStore(); 
   const {game} = toRefs(useGameStore());
   const router = useRouter();
 
   onBeforeMount(() => {
-    createGame(setupStore.players, setupStore.gameType);
+    createGame(players, gameType ?? 'practice');
   })
 
   const startGame = () => {

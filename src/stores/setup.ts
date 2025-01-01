@@ -5,13 +5,13 @@ export interface Player {
 }
 
 interface SetupState {
-  gameType: GameType;
+  gameType: GameType | null;
   playersCount: number;
   players: string[];
 }
 export const useSetupStore = defineStore("setup", {
   state: (): SetupState => ({
-    gameType: "501",
+    gameType: null,
     playersCount: 1,
     players: [],
   }),

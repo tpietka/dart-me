@@ -6,8 +6,13 @@
 </script>
 
 <template>
-  {{ gameType }}
-  {{ $route.meta.title }}
+  <div v-if="gameType">
+  {{ `Selected game type: ${gameType}` }}
+
+  </div>
+  <h1 class="text-2xl">
+    {{ $route.meta.title }}
+  </h1>
   <content-container>
     <router-view/>
   </content-container>

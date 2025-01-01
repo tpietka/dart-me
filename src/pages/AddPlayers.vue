@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
-import { useSetupStore } from '../stores/setup';
-import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { useSetupStore } from '../stores/setup';
+  import { ref } from 'vue';
+  import BaseButton from '../components/common/BaseButton.vue';
 
   const store = useSetupStore(); 
   const router = useRouter();
@@ -15,10 +16,8 @@ import { ref } from 'vue';
 </script>
 
 <template>
-  {{ players }}
-  {{ store.players }}
-  <div>  
+  <div class="flex flex-col gap-2">  
     <input v-for="n in store.playersCount" :key="n" v-model="players[n]" /> 
-    <button @click="setPlayersNames()">Next</button>
   </div>
+  <base-button class="mt-4" @click="setPlayersNames()">Next</base-button>
 </template>

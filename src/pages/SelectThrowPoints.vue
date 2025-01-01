@@ -43,10 +43,32 @@ import ThrowMultiplier from '../components/ThrowMultiplier.vue';
   });
 </script>
 <template>
-  <div>
-    {{ `Player: ${currentPlayer?.getName()}` }} {{ `Points left: ${pointsLeft}` }}
+  <div class="flex justify-between mb-4">
+    <div>
+      <div class="text-sm">
+        Now throwing
+      </div>
+      <div class="text-2xl">
+        {{ currentPlayer?.getName() }}  
+
+      </div>
+    </div>
+    <div>
+      <div class="text-sm">
+        Points left
+      </div>
+      <div class="text-2xl">
+        {{ pointsLeft }}  
+
+      </div>
+    </div>
   </div>
-  <h1>{{`Round ${round}` }} - {{ `Throw ${throwNumber}/3` }}</h1>
+  <div class="text-md">
+    {{`Round ${round}` }}
+  </div>
+  <div class="mt-2 text-2xl">
+    {{ `Throw ${throwNumber}/3` }}
+  </div>
   <div class="flex flex-wrap justify-center gap-2 mt-4">
     <throw-points v-for="point in dartPoints" :key="point" :class="[{'bg-red-800': point === dartThrow.points}]" @click="setPoints(point)">{{ point }}</throw-points>
   </div> 

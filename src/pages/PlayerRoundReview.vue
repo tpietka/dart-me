@@ -21,13 +21,34 @@
 </script>
 
 <template>
-  <div>
-    {{ `Player: ${currentPlayer?.getName()}` }} -  {{ `Poinst scored: ${currentPlayer?.getActiveRound()?.getScoredPoints()}` }}
-    </div><div>
-    {{ `Poinst left: ${currentPlayer?.getActiveRound()?.getPointsLeft()}` }}
-  </div>
+  <div class="flex justify-between mb-4">
+    <div>
+      <div class="text-sm">
+        Player
+      </div>
+      <div class="text-2xl">
+        {{ currentPlayer?.getName() }}  
+      </div>
+    </div>
+    <div>
+      <div class="text-sm">
+        Poinst left
+      </div>
+      <div class="text-2xl">
+        {{ currentPlayer?.getActiveRound()?.getPointsLeft() }}  
+      </div>
+    </div>
+    </div>
+    <div>
+      <div class="text-sm">
+        Poinst scored
+      </div>
+      <div class="text-2xl">
+        {{ currentPlayer?.getActiveRound()?.getScoredPoints() }}  
+      </div>
+    </div>
   <!-- TODO: Add dart board svg with highlighted hit segments -->
 
   <!-- TODO: Add option to edit throws -->
-  <base-button @click="nextPlayer">Next player</base-button>
+  <base-button class="mt-4" @click="nextPlayer">Next player</base-button>
 </template>
