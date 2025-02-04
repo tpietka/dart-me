@@ -12,12 +12,11 @@
     router.push({name: 'AddThrowPoints'});
   }
 
-  onBeforeMount(() => {
-    console.log(currentPlayer.value);
-    if (currentPlayer.value?.hasWon()) {
-      router.push({name: 'WinnerDetails'});
-    }
-  });
+  // onBeforeMount(() => {
+  //   if (currentPlayer.value?.hasWon()) {
+  //     router.push({name: 'WinnerDetails'});
+  //   }
+  // });
 </script>
 
 <template>
