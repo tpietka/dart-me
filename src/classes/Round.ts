@@ -6,6 +6,7 @@ export interface IRound {
   isRoundCompleted(): boolean;
   getRoundNumber(): number;
   getScoredPoints(): number;
+  getThrowsCount(): number;
 }
 
 export class Round implements IRound {
@@ -30,6 +31,9 @@ export class Round implements IRound {
     }
     this.calculatePointsScored();
   }
+  get throwNumber(): number {
+    return this.throws.length + 1;
+  }
   public getPointsLeft(): number {
     return this.pointsLeft;
   }
@@ -41,6 +45,9 @@ export class Round implements IRound {
   }
   public getRoundNumber(): number {
     return this.roundNumber;
+  }
+  public getThrowsCount(): number {
+    return this.throws.length;
   }
   private isBust(): boolean {
     return !this.isWinningThrow() && this.pointsLeft < 2;

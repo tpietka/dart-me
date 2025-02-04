@@ -3,6 +3,7 @@ import { IDartThrow } from "../classes/DartThrow";
 import { Game, IGame } from "../classes/Game";
 import { IPlayer, Player } from "../classes/Player";
 import { GameNotStartedException } from "../exceptions/GameNotStartedException";
+import { ThrowResult } from "../classes/ThrowResult";
 export type GameType = "301" | "501" | "practice";
 
 interface GameState {
@@ -34,6 +35,12 @@ export const useGameStore = defineStore("game", {
       }
       return this.game.getRoundNumber();
     },
+    throwNumber(): number {
+      if (!this.game) {
+        return 0;
+      }
+      return this.game.getCurrentPlayer()?.getActiveRound()?.throwNumber ?? 0;
+    },
   },
   actions: {
     getWinner(): IPlayer | null {
@@ -63,10 +70,17 @@ export const useGameStore = defineStore("game", {
       this.ensureGameStarted();
       this.game?.startRoundForPlayer();
     },
-    addDartThrow(dartThrow: IDartThrow): void {
+    addDartThrow(dartThrow: IDartThrow): ThrowResult {
       this.ensureGameStarted();
       const activeRound = this.game?.getCurrentPlayer()?.getActiveRound();
       activeRound?.setThrow(dartThrow);
+      if (this.game?.isGameFinished()) {
+        return ThrowResult.gameFinished();
+      }
+      if (activeRound?.isRoundCompleted()) {
+        return ThrowResult.roundFinished();
+      }
+      return ThrowResult.continueGame();
     },
     ensureGameStarted(): void {
       if (!this.game) {

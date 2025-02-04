@@ -8,17 +8,20 @@ export interface IDartThrow {
 }
 
 export class DartThrow implements IDartThrow {
-  private throwNumber: number;
   public points: number = 0;
   public multiplier: number = 1;
 
-  constructor(throwNumber: number) {
-    this.throwNumber = throwNumber;
-  }
   setPoints(points: number): void {
     this.points = points;
+    if (this.isSingleThrow()) {
+      this.setMultiplier(1);
+    }
   }
   setMultiplier(multiplier: number): void {
+    if (this.isSingleThrow()) {
+      this.multiplier = 1;
+      return;
+    }
     this.multiplier = multiplier;
   }
   getScore(): number {
@@ -26,5 +29,8 @@ export class DartThrow implements IDartThrow {
   }
   isDouble(): boolean {
     return this.multiplier === 2;
+  }
+  isSingleThrow(): boolean {
+    return this.points === 25 || this.points === 50;
   }
 }

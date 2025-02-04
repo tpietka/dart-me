@@ -7,35 +7,28 @@ import BaseButton from '../components/common/BaseButton.vue';
 import ThrowPoints from '../components/ThrowPoints.vue';
 import ThrowMultiplier from '../components/ThrowMultiplier.vue';
 
-  const {currentPlayer, round, pointsLeft, game} = toRefs(useGameStore()); 
+  const {currentPlayer, round, pointsLeft, throwNumber} = toRefs(useGameStore()); 
   const {addDartThrow} = useGameStore();
   const router = useRouter();
-  const throwNumber = ref(1);
-  const dartThrow = ref<IDartThrow>(new DartThrow(throwNumber.value));
+  const currentThrow = computed(() => throwNumber.value);
+  const dartThrow = ref<IDartThrow>(new DartThrow());
   const dartPoints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 50];
   const setPoints = (points: number): void => {
-    if(points === 25 || points === 50) {
-      dartThrow.value.setMultiplier(1);
-    }
     dartThrow.value.setPoints(points);
   }
   const setMultiplier = (multiplier: number): void => {
-    if(dartThrow.value.points === 25 || dartThrow.value.points === 50) {
-      dartThrow.value.setMultiplier(1);
-      return;
-    }
     dartThrow.value.setMultiplier(multiplier);
   }
+  const createNextThrow = (): void => {
+    dartThrow.value = new DartThrow();
+  }
   const saveThrow = () => {
-    addDartThrow(dartThrow.value);
-    if(game.value?.isGameFinished()) {
-      return router.push({name: 'WinnerDetails'});
+    const result = addDartThrow(dartThrow.value);
+
+    if(result.route) {
+      return router.push({name: result.route});
     }
-    throwNumber.value++;
-    if(throwNumber.value > 3) {
-      return router.push({name: 'PlayerRoundReview'});
-    }
-    dartThrow.value = new DartThrow(throwNumber.value);  
+    createNextThrow();  
   }
 
   const score = computed(() => {
@@ -67,7 +60,7 @@ import ThrowMultiplier from '../components/ThrowMultiplier.vue';
     {{`Round ${round}` }}
   </div>
   <div class="mt-2 text-2xl">
-    {{ `Throw ${throwNumber}/3` }}
+    {{ `Throw ${currentThrow}/3` }}
   </div>
   <div class="flex flex-wrap justify-center gap-2 mt-4">
     <throw-points v-for="point in dartPoints" :key="point" :class="[{'bg-red-800': point === dartThrow.points}]" @click="setPoints(point)">{{ point }}</throw-points>
