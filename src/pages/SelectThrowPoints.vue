@@ -11,7 +11,7 @@ import ThrowMultiplier from '../components/ThrowMultiplier.vue';
   const {addDartThrow} = useGameStore();
   const router = useRouter();
   const currentThrow = computed(() => throwNumber.value);
-  const dartThrow = ref<IDartThrow>(new DartThrow());
+  const dartThrow = ref<IDartThrow>(DartThrow.empty());
   const dartPoints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 50];
   const setPoints = (points: number): void => {
     dartThrow.value.setPoints(points);
@@ -20,7 +20,7 @@ import ThrowMultiplier from '../components/ThrowMultiplier.vue';
     dartThrow.value.setMultiplier(multiplier);
   }
   const createNextThrow = (): void => {
-    dartThrow.value = new DartThrow();
+    dartThrow.value = DartThrow.empty();
   }
   const saveThrow = () => {
     const result = addDartThrow(dartThrow.value);
