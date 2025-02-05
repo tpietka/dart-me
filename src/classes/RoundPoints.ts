@@ -1,13 +1,14 @@
 import { DartThrow, IDartThrow } from "./DartThrow";
+import { RoundNumber } from "./ValueObjects/RoundNumber";
 
 export class RoundPoints {
   private _startingPoints: number;
   private _throws: IDartThrow[] = [];
   private _pointsLeft: number = 0;
   private _pointsScored: number = 0;
-  private _roundNumber: number;
+  private _roundNumber: RoundNumber;
 
-  constructor(startingPoints: number, roundNumber: number) {
+  constructor(startingPoints: number, roundNumber: RoundNumber) {
     this._startingPoints = startingPoints;
     this._pointsLeft = startingPoints;
     this._roundNumber = roundNumber;
@@ -29,7 +30,7 @@ export class RoundPoints {
     return this._throws.length === 3;
   }
 
-  get roundNumber(): number {
+  get roundNumber(): RoundNumber {
     return this._roundNumber;
   }
 
@@ -75,7 +76,7 @@ export class RoundPoints {
 
 export class NullRoundPoints extends RoundPoints {
   constructor(startingPoints: number) {
-    super(startingPoints, 0);
+    super(startingPoints, RoundNumber.zero);
   }
   get hasCompletedRound(): boolean {
     return true;
