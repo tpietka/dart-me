@@ -4,6 +4,19 @@ import { NullRoundPoints, RoundPoints } from "./RoundPoints";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
+export interface IPlayerPointsManager {
+  playerName: string;
+  player: IPlayer;
+  roundNumber: RoundNumber;
+  pointsLeft: Points;
+  scoredPoints: Points;
+  throwNumber: number;
+  addThrow(dartThrow: IDartThrow): void;
+  hasWon(): boolean;
+  hasCompletedRound(roundNumber: RoundNumber): boolean;
+  addRound(roundNumber: RoundNumber): void;
+}
+
 export class PlayerPointsManager {
   private _player: IPlayer;
   private _points: RoundPoints[] = [];
@@ -53,10 +66,12 @@ export class PlayerPointsManager {
   public hasWon() {
     return this._points.some((round) => round.hasWon());
   }
-  public hasCompletedRound(roundNumber: RoundNumber) {
-    return this._points.find((roundPoints) =>
-      roundPoints.roundNumber.equals(roundNumber)
-    )?.hasCompletedRound;
+  public hasCompletedRound(roundNumber: RoundNumber): boolean {
+    return (
+      this._points.find((roundPoints) =>
+        roundPoints.roundNumber.equals(roundNumber)
+      )?.hasCompletedRound ?? false
+    );
   }
   public addRound(roundNumber: RoundNumber) {
     const previousRound = this.getActiveRoundPoints();

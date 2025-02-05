@@ -4,7 +4,7 @@ import { Game } from "../classes/Game";
 import { IPlayer, Player } from "../classes/Player";
 import { GameNotStartedException } from "../exceptions/GameNotStartedException";
 import { Points } from "../classes/ValueObjects/Points";
-import { PlayerPointsManager } from "../classes/PlayerPointsManager";
+import { IPlayerPointsManager } from "../classes/PlayerPointsManager";
 import { ThrowResult } from "../classes/ThrowResult";
 export type GameType = "301" | "501" | "practice";
 
@@ -24,7 +24,7 @@ export const useGameStore = defineStore("game", {
       }
       return this.game.getCurrentPlayerManager()?.pointsLeft.value ?? 1;
     },
-    currentPlayer(): PlayerPointsManager | null {
+    currentPlayer(): IPlayerPointsManager | null {
       if (!this.game) {
         return null;
       }
@@ -65,7 +65,7 @@ export const useGameStore = defineStore("game", {
     createPlayers(players: string[]): void {
       this.ensureGameStarted();
       players.forEach((playerName) => {
-        this.game?.addPlayer(new Player(playerName));
+        this.game?.addPlayerPointsManager(new Player(playerName));
       });
     },
     startRoundForPlayer(): void {

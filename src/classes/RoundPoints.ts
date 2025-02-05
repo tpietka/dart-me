@@ -2,6 +2,17 @@ import { DartThrow, IDartThrow } from "./DartThrow";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
+export interface IRoundPoints {
+  throwsCount: number;
+  pointsLeft: Points;
+  throwNumber: number;
+  pointsScored: Points;
+  hasCompletedRound: boolean;
+  roundNumber: RoundNumber;
+  addThrow(dartThrow: IDartThrow): void;
+  hasWon(): boolean;
+}
+
 export class RoundPoints {
   private _throws: IDartThrow[] = [];
   private _startingPoints: Points;
