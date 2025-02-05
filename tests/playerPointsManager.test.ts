@@ -1,13 +1,17 @@
 import { DartThrow } from "../src/classes/DartThrow";
 import { Player } from "../src/classes/Player";
 import { PlayerPointsManager } from "../src/classes/PlayerPointsManager";
+import { Points } from "../src/classes/ValueObjects/Points";
 import { RoundNumber } from "../src/classes/ValueObjects/RoundNumber";
 
 describe("test PlayerPointsManager class", () => {
   it("should return last round", () => {
     const roundNumber = RoundNumber.create();
     //Arrange
-    const pointsManager = new PlayerPointsManager(new Player("Rob"), 501);
+    const pointsManager = new PlayerPointsManager(
+      new Player("Rob"),
+      Points.create(501)
+    );
 
     //Act
     pointsManager.addRound(roundNumber);
@@ -23,7 +27,10 @@ describe("test PlayerPointsManager class", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(new Player("Rob"), 501);
+    const pointsManager = new PlayerPointsManager(
+      new Player("Rob"),
+      Points.create(501)
+    );
 
     //Act
     pointsManager.addRound(roundNumber);
@@ -32,14 +39,17 @@ describe("test PlayerPointsManager class", () => {
     pointsManager.addThrow(new DartThrow(20, 1));
 
     //Assert
-    expect(pointsManager.scoredPoints).toBe(60);
+    expect(pointsManager.scoredPoints.value).toBe(60);
   });
 
   it("should block creating new round if the previous one is not finished", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(new Player("Rob"), 501);
+    const pointsManager = new PlayerPointsManager(
+      new Player("Rob"),
+      Points.create(501)
+    );
 
     //Act
     pointsManager.addRound(roundNumber);
@@ -55,7 +65,10 @@ describe("test PlayerPointsManager class", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(new Player("Rob"), 501);
+    const pointsManager = new PlayerPointsManager(
+      new Player("Rob"),
+      Points.create(501)
+    );
 
     //Act
     pointsManager.addRound(roundNumber);

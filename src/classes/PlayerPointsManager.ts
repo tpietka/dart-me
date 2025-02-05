@@ -1,14 +1,15 @@
 import { DartThrow } from "./DartThrow";
 import { IPlayer } from "./Player";
 import { NullRoundPoints, RoundPoints } from "./RoundPoints";
+import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
 export class PlayerPointsManager {
   private _player: IPlayer;
   private _points: RoundPoints[] = [];
-  private readonly _startingPoints;
+  private readonly _startingPoints: Points;
 
-  constructor(player: IPlayer, startingPoints: number) {
+  constructor(player: IPlayer, startingPoints: Points) {
     this._player = player;
     this._startingPoints = startingPoints;
   }
@@ -17,8 +18,8 @@ export class PlayerPointsManager {
     return this.getActiveRoundPoints().roundNumber;
   }
 
-  public get scoredPoints(): number {
-    return this.getActiveRoundPoints().pointsScored ?? 0;
+  public get scoredPoints(): Points {
+    return this.getActiveRoundPoints().pointsScored;
   }
   public get player(): IPlayer {
     return this._player;
@@ -52,9 +53,7 @@ export class PlayerPointsManager {
       throw new Error("Previous round has not been completed");
     }
 
-    const pointsToScore = previousRound.pointsLeft ?? this._startingPoints;
-
-    const roundPoints = new RoundPoints(pointsToScore, roundNumber);
+    const roundPoints = new RoundPoints(previousRound.pointsLeft, roundNumber);
     this._points.push(roundPoints);
   }
   private getActiveRoundPoints() {
