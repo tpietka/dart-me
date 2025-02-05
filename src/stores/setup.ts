@@ -22,8 +22,11 @@ export const useSetupStore = defineStore("setup", {
     setPlayersCount(count: number) {
       this.playersCount = count;
     },
-    addPlayers(name: string) {
-      this.players.push(name);
+    addPlayers(playersNames: string[]) {
+      this.players = [];
+      playersNames.forEach((name) => {
+        this.players.push(name);
+      });
     },
   },
 });
