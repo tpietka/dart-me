@@ -29,7 +29,7 @@
         Poinst left
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.pointsLeft }}  
+        {{ currentPlayer?.pointsLeft.value }}  
       </div>
     </div>
     </div>
@@ -38,7 +38,7 @@
         Poinst scored
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.scoredPoints }}  
+        {{ currentPlayer?.scoredPoints.value }}  
       </div>
     </div>
   <!-- TODO: Add dart board svg with highlighted hit segments -->

@@ -24,7 +24,7 @@
   <div>Players</div>
   <div class="flex flex-col gap-2">
   <div v-for="playerName in game?.getPlayersNames()" :key="playerName">
-    <span>{{ playerName }} - {{ startingPoints }}</span>
+    <span>{{ playerName }} - {{ startingPoints.value }}</span>
   </div>
 
   </div>
