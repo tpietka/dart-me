@@ -1,17 +1,16 @@
 import { DartThrow, IDartThrow } from "./DartThrow";
-import { IPlayer } from "./Player";
 
 export class RoundPoints {
   private _startingPoints: number;
   private _throws: IDartThrow[] = [];
   private _pointsLeft: number = 0;
   private _pointsScored: number = 0;
-  private _player: IPlayer;
+  private _roundNumber: number;
 
-  constructor(startingPoints: number, player: IPlayer) {
+  constructor(startingPoints: number, roundNumber: number) {
     this._startingPoints = startingPoints;
     this._pointsLeft = startingPoints;
-    this._player = player;
+    this._roundNumber = roundNumber;
   }
 
   get throwsCount(): number {
@@ -30,7 +29,11 @@ export class RoundPoints {
     return this._throws.length === 3;
   }
 
-  addThrow(dartThrow: IDartThrow): void {
+  get roundNumber(): number {
+    return this._roundNumber;
+  }
+
+  public addThrow(dartThrow: IDartThrow): void {
     this._throws.push(dartThrow);
     this._pointsLeft -= dartThrow.getScore();
     if (this.isBust()) {
@@ -40,11 +43,11 @@ export class RoundPoints {
     }
     this.calculatePointsScored();
   }
-  private isBust(): boolean {
-    return !this.isWinningThrow() && this._pointsLeft < 2;
-  }
-  private isWinningThrow(): boolean {
+  public hasWon(): boolean {
     return this._pointsLeft === 0 && this.wasLastThrowDouble();
+  }
+  private isBust(): boolean {
+    return !this.hasWon() && this._pointsLeft < 2;
   }
   private resetPoints(): void {
     this._pointsLeft = this._startingPoints;
@@ -58,11 +61,27 @@ export class RoundPoints {
     this._pointsScored = throwsSum;
   }
   private wasLastThrowDouble(): boolean {
+    if (this._throws.length === 0) {
+      return false;
+    }
     return this._throws[this._throws.length - 1].isDouble();
   }
   private nullifyRemainingThrows(): void {
     while (this._throws.length < 3) {
       this._throws.push(DartThrow.empty());
     }
+  }
+}
+
+export class NullRoundPoints extends RoundPoints {
+  constructor(startingPoints: number) {
+    super(startingPoints, 0);
+  }
+  get hasCompletedRound(): boolean {
+    return true;
+  }
+  public addThrow(dartThrow: DartThrow): void {}
+  public hasWon(): boolean {
+    return false;
   }
 }
