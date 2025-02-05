@@ -24,6 +24,10 @@ export class RoundPoints {
     return this._pointsLeft;
   }
 
+  get throwNumber(): number {
+    return this._throws.length + 1;
+  }
+
   get pointsScored(): Points {
     return this._pointsScored;
   }

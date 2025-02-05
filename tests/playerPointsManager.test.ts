@@ -81,4 +81,27 @@ describe("test PlayerPointsManager class", () => {
       "Round already exists"
     );
   });
+
+  it("should return true that round nr 2 is completed after 6 throws", () => {
+    const roundNumber = RoundNumber.create();
+
+    //Arrange
+    const pointsManager = new PlayerPointsManager(
+      new Player("Rob"),
+      Points.create(501)
+    );
+
+    //Act
+    pointsManager.addRound(roundNumber);
+    pointsManager.addThrow(new DartThrow(20, 1));
+    pointsManager.addThrow(new DartThrow(20, 1));
+    pointsManager.addThrow(new DartThrow(20, 1));
+    pointsManager.addRound(roundNumber.next());
+    pointsManager.addThrow(new DartThrow(20, 1));
+    pointsManager.addThrow(new DartThrow(20, 1));
+    pointsManager.addThrow(new DartThrow(20, 1));
+
+    //Assert
+    expect(pointsManager.hasCompletedRound(roundNumber.next())).toBeTruthy();
+  });
 });

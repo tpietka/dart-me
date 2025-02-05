@@ -1,71 +1,64 @@
-import { GameType } from "../stores/game";
 import { IPlayer } from "./Player";
-import { Round } from "./Round";
+import { PlayerPointsManager } from "./PlayerPointsManager";
+import { Points } from "./ValueObjects/Points";
+import { RoundNumber } from "./ValueObjects/RoundNumber";
 
-export interface IGame {
-  startingPoints: number;
-  gameType: GameType;
-  addPlayer(player: IPlayer): void;
-  getCurrentPlayer(): IPlayer | null;
-  getRoundNumber(): number;
-  startRoundForPlayer(): void;
-  getWinner(): IPlayer | null;
-  isGameFinished(): boolean;
-  getPlayersNames(): string[];
-}
-
-export class Game implements IGame {
+export class Game {
   private players: IPlayer[];
+  private playerPointsManagers: PlayerPointsManager[] = [];
   private winner: IPlayer | null = null;
-  private currentPlayer: IPlayer | null = null;
-  private round: number = 1;
-  public startingPoints = 0;
-  public gameType;
+  private currentPlayerManager: PlayerPointsManager | null = null;
+  private roundNumber: RoundNumber = RoundNumber.create();
+  private startingPoints: Points;
 
-  constructor(gameType: GameType, startingPoints: number) {
+  constructor(startingPoints: Points) {
     this.startingPoints = startingPoints;
     this.players = [];
-    this.gameType = gameType;
   }
   addPlayer(player: IPlayer): void {
     this.players.push(player);
   }
-  getPlayersNames(): string[] {
-    return this.players.map((player) => player.getName());
+  addPlayerPointsManager(player: IPlayer): void {
+    const manager = new PlayerPointsManager(player, this.startingPoints);
+    this.playerPointsManagers.push(manager);
   }
-  getRoundNumber(): number {
-    return this.round;
+  getPlayersNames(): string[] {
+    return this.playerPointsManagers.map((manager) => manager.playerName);
+  }
+  getRoundNumber(): RoundNumber {
+    return this.roundNumber;
   }
   public isGameFinished(): boolean {
-    if (this.currentPlayer?.hasWon()) {
-      this.winner = this.currentPlayer;
+    if (this.currentPlayerManager?.hasWon()) {
+      this.winner = this.currentPlayerManager?.player;
       return true;
     }
     return false;
   }
-  getCurrentPlayer(): IPlayer | null {
-    return this.currentPlayer;
+  getCurrentPlayerManager(): PlayerPointsManager | null {
+    return this.currentPlayerManager;
   }
   getWinner(): IPlayer | null {
     return this.winner;
   }
   private nextRound(): void {
-    this.round++;
+    this.roundNumber = this.roundNumber.next();
   }
   private isEndOfRound(): boolean {
-    return this.players.every((player) =>
-      player.hasCompletedActiveRound(this.round)
+    return this.playerPointsManagers.every((manager) =>
+      manager.hasCompletedRound(this.roundNumber)
     );
   }
   private nextPlayer(): void {
-    if (!this.currentPlayer) {
+    if (!this.currentPlayerManager) {
       {
-        this.currentPlayer = this.players[0];
+        this.currentPlayerManager = this.playerPointsManagers[0];
       }
     } else {
       const nextPlayerIndex =
-        (this.players.indexOf(this.currentPlayer) + 1) % this.players.length;
-      this.currentPlayer = this.players[nextPlayerIndex];
+        (this.playerPointsManagers.indexOf(this.currentPlayerManager) + 1) %
+        this.playerPointsManagers.length;
+      this.currentPlayerManager = this.playerPointsManagers[nextPlayerIndex];
     }
   }
   startRoundForPlayer(): void {
@@ -73,9 +66,6 @@ export class Game implements IGame {
     if (this.isEndOfRound()) {
       this.nextRound();
     }
-    const lastRound = this.currentPlayer?.getActiveRound();
-    this.currentPlayer?.addRound(
-      new Round(lastRound?.getPointsLeft() ?? this.startingPoints, this.round)
-    );
+    this.currentPlayerManager?.addRound(this.roundNumber);
   }
 }

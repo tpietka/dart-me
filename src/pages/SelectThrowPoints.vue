@@ -42,7 +42,7 @@ import ThrowMultiplier from '../components/ThrowMultiplier.vue';
         Now throwing
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.getName() }}  
+        {{ currentPlayer?.playerName }}  
 
       </div>
     </div>

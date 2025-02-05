@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { useRouter } from 'vue-router';
-  import { onBeforeMount, toRefs } from 'vue';
+  import { toRefs } from 'vue';
   import { useGameStore } from '../stores/game';
   import BaseButton from '../components/common/BaseButton.vue';
 
@@ -12,11 +12,6 @@
     router.push({name: 'AddThrowPoints'});
   }
 
-  // onBeforeMount(() => {
-  //   if (currentPlayer.value?.hasWon()) {
-  //     router.push({name: 'WinnerDetails'});
-  //   }
-  // });
 </script>
 
 <template>
@@ -26,7 +21,7 @@
         Player
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.getName() }}  
+        {{ currentPlayer?.playerName }}  
       </div>
     </div>
     <div>
@@ -34,7 +29,7 @@
         Poinst left
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.getActiveRound()?.getPointsLeft() }}  
+        {{ currentPlayer?.pointsLeft }}  
       </div>
     </div>
     </div>
@@ -43,7 +38,7 @@
         Poinst scored
       </div>
       <div class="text-2xl">
-        {{ currentPlayer?.getActiveRound()?.getScoredPoints() }}  
+        {{ currentPlayer?.scoredPoints }}  
       </div>
     </div>
   <!-- TODO: Add dart board svg with highlighted hit segments -->

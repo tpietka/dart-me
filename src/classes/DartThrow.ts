@@ -20,33 +20,33 @@ export class DartThrow implements IDartThrow {
     return new DartThrow(0, 1);
   }
 
-  get points(): number {
+  public get points(): number {
     return this._points;
   }
-  get multiplier(): number {
+  public get multiplier(): number {
     return this._multiplier;
   }
 
-  setPoints(points: number): void {
+  public setPoints(points: number): void {
     this._points = points;
     if (this.isSingleThrow()) {
       this.setMultiplier(1);
     }
   }
-  setMultiplier(multiplier: number): void {
+  public setMultiplier(multiplier: number): void {
     if (this.isSingleThrow()) {
       this._multiplier = 1;
       return;
     }
     this._multiplier = multiplier;
   }
-  getScore(): number {
+  public getScore(): number {
     return this._points * this._multiplier;
   }
-  isDouble(): boolean {
+  public isDouble(): boolean {
     return this._multiplier === 2;
   }
-  isSingleThrow(): boolean {
+  private isSingleThrow(): boolean {
     return this._points === 25 || this._points === 50;
   }
 }

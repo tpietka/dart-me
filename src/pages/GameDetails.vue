@@ -7,7 +7,7 @@
 
   const {players, gameType} = useSetupStore();
   const {createGame} = useGameStore(); 
-  const {game} = toRefs(useGameStore());
+  const {game, startingPoints} = toRefs(useGameStore());
   const router = useRouter();
 
   onBeforeMount(() => {
@@ -24,7 +24,7 @@
   <div>Players</div>
   <div class="flex flex-col gap-2">
   <div v-for="playerName in game?.getPlayersNames()" :key="playerName">
-    <span>{{ playerName }} - {{ game?.startingPoints }}</span>
+    <span>{{ playerName }} - {{ startingPoints }}</span>
   </div>
 
   </div>

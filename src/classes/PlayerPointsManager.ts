@@ -1,4 +1,4 @@
-import { DartThrow } from "./DartThrow";
+import { IDartThrow } from "./DartThrow";
 import { IPlayer } from "./Player";
 import { NullRoundPoints, RoundPoints } from "./RoundPoints";
 import { Points } from "./ValueObjects/Points";
@@ -17,15 +17,25 @@ export class PlayerPointsManager {
   public get roundNumber(): RoundNumber {
     return this.getActiveRoundPoints().roundNumber;
   }
-
+  public get pointsLeft(): Points {
+    return this.getActiveRoundPoints().pointsLeft;
+  }
   public get scoredPoints(): Points {
     return this.getActiveRoundPoints().pointsScored;
   }
+  public get playerName(): string {
+    return this._player.getName();
+  }
+
   public get player(): IPlayer {
     return this._player;
   }
 
-  public addThrow(dartThrow: DartThrow) {
+  public get throwNumber(): number {
+    return this.getActiveRoundPoints().throwNumber;
+  }
+
+  public addThrow(dartThrow: IDartThrow) {
     if (this.hasWon()) {
       throw new Error("Player has already won");
     }
@@ -42,6 +52,11 @@ export class PlayerPointsManager {
   }
   public hasWon() {
     return this._points.some((round) => round.hasWon());
+  }
+  public hasCompletedRound(roundNumber: RoundNumber) {
+    return this._points.find((roundPoints) =>
+      roundPoints.roundNumber.equals(roundNumber)
+    )?.hasCompletedRound;
   }
   public addRound(roundNumber: RoundNumber) {
     const previousRound = this.getActiveRoundPoints();
