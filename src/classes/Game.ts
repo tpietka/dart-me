@@ -1,22 +1,20 @@
 import { IPlayer } from "./Player";
-import { PlayerPointsManager } from "./PlayerPointsManager";
+import {
+  PlayerPointsManager,
+  IPlayerPointsManager,
+} from "./PlayerPointsManager";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
 export class Game {
-  private players: IPlayer[];
-  private playerPointsManagers: PlayerPointsManager[] = [];
+  private playerPointsManagers: IPlayerPointsManager[] = [];
   private winner: IPlayer | null = null;
-  private currentPlayerManager: PlayerPointsManager | null = null;
+  private currentPlayerManager: IPlayerPointsManager | null = null;
   private roundNumber: RoundNumber = RoundNumber.create();
   private startingPoints: Points;
 
   constructor(startingPoints: Points) {
     this.startingPoints = startingPoints;
-    this.players = [];
-  }
-  addPlayer(player: IPlayer): void {
-    this.players.push(player);
   }
   addPlayerPointsManager(player: IPlayer): void {
     const manager = new PlayerPointsManager(player, this.startingPoints);
@@ -35,7 +33,7 @@ export class Game {
     }
     return false;
   }
-  getCurrentPlayerManager(): PlayerPointsManager | null {
+  getCurrentPlayerManager(): IPlayerPointsManager | null {
     return this.currentPlayerManager;
   }
   getWinner(): IPlayer | null {
