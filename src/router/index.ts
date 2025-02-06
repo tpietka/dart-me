@@ -2,15 +2,15 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: import("../pages/StartPage.vue"),
-  },
-  {
-    path: "/setup",
-    name: "Setup",
-    redirect: { name: "SetupGameType" },
-    component: import("../components/layouts/SetupLayout.vue"),
+    name: "Layout",
+    component: import("../components/layouts/Layout.vue"),
+    redirect: "Home",
     children: [
+      {
+        path: "/",
+        name: "Home",
+        component: import("../pages/StartPage.vue"),
+      },
       {
         path: "/game-type",
         name: "SetupGameType",
@@ -35,16 +35,8 @@ const routes = [
           title: "Add Players",
         },
       },
-    ],
-  },
-  {
-    path: "/game",
-    name: "StartGame",
-    redirect: { name: "GameDetails" },
-    component: import("../components/layouts/GameLayout.vue"),
-    children: [
       {
-        path: "",
+        path: "/game",
         name: "GameDetails",
         component: import("../pages/GameDetails.vue"),
         meta: {
@@ -57,14 +49,6 @@ const routes = [
         component: import("../pages/WinnerDetails.vue"),
         meta: {
           title: "Winner",
-        },
-      },
-      {
-        path: "/round-summary",
-        name: "RoundSummary",
-        component: import("../pages/RoundSummary.vue"),
-        meta: {
-          title: "Round summary",
         },
       },
       {

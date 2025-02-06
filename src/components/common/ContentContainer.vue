@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 mx-auto">
+  <div class="mt-4 w-100">
     <slot></slot>
   </div>
 </template>

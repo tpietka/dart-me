@@ -15,13 +15,13 @@ const navigateHome = () => {
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
-    <span @click="navigateHome">Home</span>
-    <span>
+  <div class="flex justify-between items-center fixed top-0 left-0 right-0 p-4">
+    <span class="text-3xl" @click="navigateHome">Home</span>
+    <span class="text-3xl" v-if="startingPoints.value > 0">
       {{ startingPoints.value }}
     </span>
   </div>
-  <h1 class="text-2xl mt-4">
+  <h1 class="text-2xl">
     {{ $route.meta.title }}
   </h1>
   <content-container>

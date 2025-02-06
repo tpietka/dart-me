@@ -9,13 +9,18 @@ const router = useRouter();
 const players = ref<string[]>([]);
 const setPlayersNames = () => {
   store.addPlayers(players.value);
-  router.push({ name: "StartGame" });
+  router.push({ name: "GameDetails" });
 };
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
-    <input v-for="n in store.playersCount" :key="n" v-model="players[n]" />
+  <div class="flex flex-col gap-6">
+    <input
+      class="py-4 px-24 border rounded-xl bg-gray-800 text-center"
+      v-for="n in store.playersCount"
+      :key="n"
+      v-model="players[n]"
+    />
   </div>
-  <base-button class="mt-4" @click="setPlayersNames()">Next</base-button>
+  <base-button class="mt-8" @click="setPlayersNames()">Next</base-button>
 </template>
