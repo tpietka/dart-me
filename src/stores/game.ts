@@ -53,6 +53,7 @@ export const useGameStore = defineStore("game", {
       return winner;
     },
     removeGame(): void {
+      this.startingPoints = Points.zero;
       this.game = null;
     },
     createGame(players: string[], gameType: GameType): void {
