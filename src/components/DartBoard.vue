@@ -1,56 +1,30 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { ToWords } from "to-words";
-import { ThrowsPoints } from "../classes/RoundPoints";
+import { IDartThrow } from "../classes/DartThrow";
 
 const toWords = new ToWords();
 const props = defineProps<{
-  points?: ThrowsPoints;
+  points?: IDartThrow[];
 }>();
 onMounted(() => {
   if (props.points) {
-    var firstThrow = document.getElementsByClassName(
-      `${toWords
-        .convert(props.points.firstThrow.points)
-        .replace(" ", "")
-        .toLowerCase()}-${toWords
-        .convert(props.points.firstThrow.multiplier)
-        .replace(" ", "")
-        .toLowerCase()}`
-    );
-    for (var i = 0; i < firstThrow.length; i++) {
-      const element = firstThrow[i];
-      element.setAttribute("stop-color", "#FFF064");
-      element.setAttribute("fill", "#FFF064");
-    }
-    var secondThrow = document.getElementsByClassName(
-      `${toWords
-        .convert(props.points.secondThrow.points)
-        .replace(" ", "")
-        .toLowerCase()}-${toWords
-        .convert(props.points.secondThrow.multiplier)
-        .replace(" ", "")
-        .toLowerCase()}`
-    );
-    for (var i = 0; i < secondThrow.length; i++) {
-      const element = secondThrow[i];
-      element.setAttribute("stop-color", "#FFF064");
-      element.setAttribute("fill", "#FFF064");
-    }
-    var thirdThrow = document.getElementsByClassName(
-      `${toWords
-        .convert(props.points.thirdThrow.points)
-        .replace(" ", "")
-        .toLowerCase()}-${toWords
-        .convert(props.points.thirdThrow.multiplier)
-        .replace(" ", "")
-        .toLowerCase()}`
-    );
-    for (var i = 0; i < thirdThrow.length; i++) {
-      const element = thirdThrow[i];
-      element.setAttribute("stop-color", "#FFF064");
-      element.setAttribute("fill", "#FFF064");
-    }
+    props.points.forEach((dartThrow) => {
+      const segments = document.getElementsByClassName(
+        `${toWords
+          .convert(dartThrow.points)
+          .replace(" ", "")
+          .toLowerCase()}-${toWords
+          .convert(dartThrow.multiplier)
+          .replace(" ", "")
+          .toLowerCase()}`
+      );
+      for (var i = 0; i < segments.length; i++) {
+        const element = segments[i];
+        element.setAttribute("stop-color", "#FFF064");
+        element.setAttribute("fill", "#FFF064");
+      }
+    });
   }
 });
 </script>

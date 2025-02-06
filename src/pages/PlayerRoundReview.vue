@@ -15,7 +15,7 @@ const nextPlayer = () => {
 </script>
 
 <template>
-  <dart-board :points="currentPlayer?.throwsPoints"></dart-board>
+  <dart-board :points="currentPlayer?.throwPoints"></dart-board>
   <div class="flex justify-between mb-6 mt-12">
     <div>
       <div class="text-sm">Player</div>

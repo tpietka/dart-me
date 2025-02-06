@@ -1,6 +1,6 @@
 import { IDartThrow } from "./DartThrow";
 import { IPlayer, Player } from "./Player";
-import { NullRoundPoints, RoundPoints, ThrowsPoints } from "./RoundPoints";
+import { NullRoundPoints, RoundPoints } from "./RoundPoints";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
@@ -9,7 +9,7 @@ export interface IPlayerPoints {
   player: IPlayer;
   roundNumber: RoundNumber;
   pointsLeft: Points;
-  throwsPoints: ThrowsPoints;
+  throwPoints: IDartThrow[];
   scoredPoints: Points;
   throwNumber: number;
   addThrow(dartThrow: IDartThrow): void;
@@ -45,8 +45,8 @@ export class PlayerPoints {
     return this._player;
   }
 
-  public get throwsPoints() {
-    return this.getActiveRoundPoints().throwsPoints;
+  public get throwPoints() {
+    return this.getActiveRoundPoints().throwPoints;
   }
 
   public get throwNumber(): number {
