@@ -2,12 +2,28 @@ import { DartThrow, IDartThrow } from "./DartThrow";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
+export interface ThrowsPoints {
+  firstThrow: {
+    points: number;
+    multiplier: number;
+  };
+  secondThrow: {
+    points: number;
+    multiplier: number;
+  };
+  thirdThrow: {
+    points: number;
+    multiplier: number;
+  };
+}
+
 export interface IRoundPoints {
   throwsCount: number;
   pointsLeft: Points;
   throwNumber: number;
   pointsScored: Points;
   hasCompletedRound: boolean;
+  throwPoints: ThrowsPoints;
   roundNumber: RoundNumber;
   addThrow(dartThrow: IDartThrow): void;
   hasWon(): boolean;
@@ -45,6 +61,23 @@ export class RoundPoints {
 
   get hasCompletedRound(): boolean {
     return this._throws.length === 3;
+  }
+
+  public get throwsPoints() {
+    return {
+      firstThrow: {
+        points: this._throws[0].points,
+        multiplier: this._throws[0].multiplier,
+      },
+      secondThrow: {
+        points: this._throws[1].points,
+        multiplier: this._throws[1].multiplier,
+      },
+      thirdThrow: {
+        points: this._throws[2].points,
+        multiplier: this._throws[2].multiplier,
+      },
+    };
   }
 
   get roundNumber(): RoundNumber {
