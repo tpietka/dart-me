@@ -1,51 +1,37 @@
 import { defineStore } from "pinia";
 import { IDartThrow } from "../classes/DartThrow";
-import { Game } from "../classes/Game";
+import { Game, NullGame } from "../classes/Game";
 import { IPlayer, Player } from "../classes/Player";
-import { GameNotStartedException } from "../exceptions/GameNotStartedException";
 import { Points } from "../classes/ValueObjects/Points";
 import { ThrowResult } from "../classes/ThrowResult";
 import { IPlayerPoints } from "../classes/PlayerPoints";
 export type GameType = "301" | "501" | "practice";
 
 interface GameState {
-  game: Game | null;
+  game: Game | NullGame;
   startingPoints: Points;
 }
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
-    game: null,
+    game: NullGame.create(Points.zero),
     startingPoints: Points.zero,
   }),
   getters: {
     pointsLeft(): number {
-      if (!this.game) {
-        return 0;
-      }
-      return this.game.getCurrentPlayerManager()?.pointsLeft.value ?? 1;
+      return this.game.getCurrentPlayer()?.pointsLeft.value ?? 1;
     },
-    currentPlayer(): IPlayerPoints | null {
-      if (!this.game) {
-        return null;
-      }
-      return this.game.getCurrentPlayerManager();
+    currentPlayer(): IPlayerPoints {
+      return this.game.getCurrentPlayer();
     },
     round(): number {
-      if (!this.game) {
-        return 0;
-      }
-      return this.game.getRoundNumber().value;
+      return this.game.roundNumber.value;
     },
     throwNumber(): number {
-      if (!this.game) {
-        return 0;
-      }
-      return this.game.getCurrentPlayerManager()?.throwNumber ?? 1;
+      return this.game.getCurrentPlayer()?.throwNumber ?? 1;
     },
   },
   actions: {
     getWinner(): IPlayer | null {
-      this.ensureGameStarted();
       const winner = this.game?.getWinner();
       if (!winner) {
         return null;
@@ -54,40 +40,25 @@ export const useGameStore = defineStore("game", {
     },
     removeGame(): void {
       this.startingPoints = Points.zero;
-      this.game = null;
+      this.game = NullGame.create(this.startingPoints as Points);
     },
     createGame(players: string[], gameType: GameType): void {
       this.startingPoints = Points.create(
         gameType === "practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType)
       );
-      this.game = new Game(this.startingPoints as Points);
+      this.game = Game.create(this.startingPoints as Points);
       this.createPlayers(players);
     },
     createPlayers(players: string[]): void {
-      this.ensureGameStarted();
       players.forEach((playerName) => {
-        this.game?.addPlayerPoints(new Player(playerName));
+        this.game.addPlayerPoints(new Player(playerName));
       });
     },
     startRoundForPlayer(): void {
-      this.ensureGameStarted();
-      this.game?.startRoundForPlayer();
+      this.game.startRoundForPlayer();
     },
     addDartThrow(dartThrow: IDartThrow): ThrowResult {
-      this.ensureGameStarted();
-      this.game?.getCurrentPlayerManager()?.addThrow(dartThrow);
-      if (this.game?.isGameFinished()) {
-        return ThrowResult.gameFinished();
-      }
-      if (this.currentPlayer?.hasCompletedRound(this.game?.getRoundNumber()!)) {
-        return ThrowResult.roundFinished();
-      }
-      return ThrowResult.continueGame();
-    },
-    ensureGameStarted(): void {
-      if (!this.game) {
-        throw new GameNotStartedException("Game not created yet");
-      }
+      return this.game.addThrow(dartThrow);
     },
   },
 });

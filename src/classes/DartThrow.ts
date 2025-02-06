@@ -1,3 +1,5 @@
+import { Points } from "./ValueObjects/Points";
+
 export interface IDartThrow {
   points: number;
   multiplier: number;
@@ -8,11 +10,12 @@ export interface IDartThrow {
 }
 
 export class DartThrow implements IDartThrow {
-  private _points: number = 0;
+  private _points: Points = Points.zero;
   private _multiplier: number = 1;
 
   public constructor(points: number, multiplier: number) {
-    this._points = points;
+    //TODO: Add validation for points
+    this._points = Points.create(points);
     this._multiplier = multiplier;
   }
 
@@ -21,14 +24,14 @@ export class DartThrow implements IDartThrow {
   }
 
   public get points(): number {
-    return this._points;
+    return this._points.value;
   }
   public get multiplier(): number {
     return this._multiplier;
   }
 
   public setPoints(points: number): void {
-    this._points = points;
+    this._points = Points.create(points);
     if (this.isSingleThrow()) {
       this.setMultiplier(1);
     }
@@ -41,12 +44,12 @@ export class DartThrow implements IDartThrow {
     this._multiplier = multiplier;
   }
   public getScore(): number {
-    return this._points * this._multiplier;
+    return this._points.value * this._multiplier;
   }
   public isDouble(): boolean {
     return this._multiplier === 2;
   }
   private isSingleThrow(): boolean {
-    return this._points === 25 || this._points === 50;
+    return this._points.value === 25 || this._points.value === 50;
   }
 }

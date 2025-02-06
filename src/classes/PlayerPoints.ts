@@ -1,5 +1,5 @@
 import { IDartThrow } from "./DartThrow";
-import { IPlayer } from "./Player";
+import { IPlayer, Player } from "./Player";
 import { NullRoundPoints, RoundPoints, ThrowsPoints } from "./RoundPoints";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
@@ -99,5 +99,17 @@ export class PlayerPoints {
   }
   private hasCompletedActiveRound() {
     return this.getActiveRoundPoints().hasCompletedRound ?? false;
+  }
+}
+
+export class NullPlayerPoints extends PlayerPoints implements IPlayerPoints {
+  public static create(): NullPlayerPoints {
+    return new NullPlayerPoints(new Player("Nodody"), Points.zero);
+  }
+  public get pointsLeft(): Points {
+    return Points.zero;
+  }
+  public get scoredPoints(): Points {
+    return Points.zero;
   }
 }
