@@ -4,7 +4,7 @@ import { NullRoundPoints, RoundPoints, ThrowsPoints } from "./RoundPoints";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
-export interface IPlayerPointsManager {
+export interface IPlayerPoints {
   playerName: string;
   player: IPlayer;
   roundNumber: RoundNumber;
@@ -18,7 +18,7 @@ export interface IPlayerPointsManager {
   addRound(roundNumber: RoundNumber): void;
 }
 
-export class PlayerPointsManager {
+export class PlayerPoints {
   private _player: IPlayer;
   private _points: RoundPoints[] = [];
   private readonly _startingPoints: Points;

@@ -1,6 +1,6 @@
 import { DartThrow } from "../src/classes/DartThrow";
 import { Player } from "../src/classes/Player";
-import { PlayerPointsManager } from "../src/classes/PlayerPointsManager";
+import { PlayerPoints } from "../src/classes/PlayerPoints";
 import { Points } from "../src/classes/ValueObjects/Points";
 import { RoundNumber } from "../src/classes/ValueObjects/RoundNumber";
 
@@ -8,26 +8,26 @@ describe("test PlayerPointsManager class", () => {
   it("should return last round", () => {
     const roundNumber = RoundNumber.create();
     //Arrange
-    const pointsManager = new PlayerPointsManager(
+    const playerPoints = new PlayerPoints(
       new Player("Rob"),
       Points.create(501)
     );
 
     //Act
-    pointsManager.addRound(roundNumber);
-    pointsManager.addThrow(new DartThrow(20, 1));
-    pointsManager.addThrow(new DartThrow(20, 1));
-    pointsManager.addThrow(new DartThrow(20, 1));
-    pointsManager.addRound(roundNumber.next());
+    playerPoints.addRound(roundNumber);
+    playerPoints.addThrow(new DartThrow(20, 1));
+    playerPoints.addThrow(new DartThrow(20, 1));
+    playerPoints.addThrow(new DartThrow(20, 1));
+    playerPoints.addRound(roundNumber.next());
     //Assert
-    expect(pointsManager.roundNumber.value).toBe(2);
+    expect(playerPoints.roundNumber.value).toBe(2);
   });
 
   it("should display correct remaining points to score after two rounds", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(
+    const pointsManager = new PlayerPoints(
       new Player("Rob"),
       Points.create(501)
     );
@@ -46,7 +46,7 @@ describe("test PlayerPointsManager class", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(
+    const pointsManager = new PlayerPoints(
       new Player("Rob"),
       Points.create(501)
     );
@@ -65,7 +65,7 @@ describe("test PlayerPointsManager class", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(
+    const pointsManager = new PlayerPoints(
       new Player("Rob"),
       Points.create(501)
     );
@@ -86,7 +86,7 @@ describe("test PlayerPointsManager class", () => {
     const roundNumber = RoundNumber.create();
 
     //Arrange
-    const pointsManager = new PlayerPointsManager(
+    const pointsManager = new PlayerPoints(
       new Player("Rob"),
       Points.create(501)
     );

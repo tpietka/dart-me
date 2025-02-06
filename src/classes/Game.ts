@@ -1,30 +1,38 @@
 import { IPlayer } from "./Player";
-import {
-  PlayerPointsManager,
-  IPlayerPointsManager,
-} from "./PlayerPointsManager";
+import { IPlayerPoints, PlayerPoints } from "./PlayerPoints";
 import { Points } from "./ValueObjects/Points";
 import { RoundNumber } from "./ValueObjects/RoundNumber";
 
-export class Game {
-  private playerPointsManagers: IPlayerPointsManager[] = [];
+export interface IGame {
+  addPlayerPoints(player: IPlayer): void;
+}
+
+export class Game implements IGame {
+  private playerPointss: IPlayerPoints[] = [];
   private winner: IPlayer | null = null;
-  private currentPlayerManager: IPlayerPointsManager | null = null;
+  private currentPlayerManager: IPlayerPoints | null = null;
   private roundNumber: RoundNumber = RoundNumber.create();
   private startingPoints: Points;
 
   constructor(startingPoints: Points) {
     this.startingPoints = startingPoints;
   }
-  addPlayerPointsManager(player: IPlayer): void {
-    const manager = new PlayerPointsManager(player, this.startingPoints);
-    this.playerPointsManagers.push(manager);
+  public addPlayerPoints(player: IPlayer): void {
+    const manager = new PlayerPoints(player, this.startingPoints);
+    this.playerPointss.push(manager);
   }
-  getPlayersNames(): string[] {
-    return this.playerPointsManagers.map((manager) => manager.playerName);
+  public getPlayersNames(): string[] {
+    return this.playerPointss.map((manager) => manager.playerName);
   }
-  getRoundNumber(): RoundNumber {
+  public getRoundNumber(): RoundNumber {
     return this.roundNumber;
+  }
+  public startRoundForPlayer(): void {
+    this.nextPlayer();
+    if (this.isEndOfRound()) {
+      this.nextRound();
+    }
+    this.currentPlayerManager?.addRound(this.roundNumber);
   }
   public isGameFinished(): boolean {
     if (this.currentPlayerManager?.hasWon()) {
@@ -33,37 +41,30 @@ export class Game {
     }
     return false;
   }
-  getCurrentPlayerManager(): IPlayerPointsManager | null {
+  public getCurrentPlayerManager(): IPlayerPoints | null {
     return this.currentPlayerManager;
   }
-  getWinner(): IPlayer | null {
+  public getWinner(): IPlayer | null {
     return this.winner;
   }
   private nextRound(): void {
     this.roundNumber = this.roundNumber.next();
   }
   private isEndOfRound(): boolean {
-    return this.playerPointsManagers.every((manager) =>
+    return this.playerPointss.every((manager) =>
       manager.hasCompletedRound(this.roundNumber)
     );
   }
   private nextPlayer(): void {
     if (!this.currentPlayerManager) {
       {
-        this.currentPlayerManager = this.playerPointsManagers[0];
+        this.currentPlayerManager = this.playerPointss[0];
       }
     } else {
       const nextPlayerIndex =
-        (this.playerPointsManagers.indexOf(this.currentPlayerManager) + 1) %
-        this.playerPointsManagers.length;
-      this.currentPlayerManager = this.playerPointsManagers[nextPlayerIndex];
+        (this.playerPointss.indexOf(this.currentPlayerManager) + 1) %
+        this.playerPointss.length;
+      this.currentPlayerManager = this.playerPointss[nextPlayerIndex];
     }
-  }
-  startRoundForPlayer(): void {
-    this.nextPlayer();
-    if (this.isEndOfRound()) {
-      this.nextRound();
-    }
-    this.currentPlayerManager?.addRound(this.roundNumber);
   }
 }
