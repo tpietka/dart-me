@@ -16,7 +16,6 @@ const currentThrow = computed(() => throwNumber.value);
 const dartThrow = ref<IDartThrow>(DartThrow.empty());
 const dartPoints = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25,
-  50,
 ];
 const setPoints = (points: number): void => {
   dartThrow.value.setPoints(points);
@@ -77,7 +76,7 @@ const score = computed(() => {
       >Single</throw-multiplier
     >
     <throw-multiplier
-      v-if="dartThrow.points <= 20"
+      v-if="dartThrow.points <= 25"
       :class="[{ 'bg-red-800': 2 === dartThrow.multiplier }]"
       @click="setMultiplier(2)"
       >Double</throw-multiplier

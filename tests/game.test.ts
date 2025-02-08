@@ -45,6 +45,24 @@ describe("Game Class", () => {
     expect(game.isGameFinished()).toBe(true);
   });
 
+  test("should finish the game when a player reaches zero points", () => {
+    const player = new Player("John");
+    game.addPlayerPoints(player);
+    game.startRoundForPlayer();
+    const dartThrow = new DartThrow(20, 3);
+    game.addThrow(dartThrow);
+    game.addThrow(dartThrow);
+    game.addThrow(dartThrow);
+    game.startRoundForPlayer();
+    game.addThrow(new DartThrow(20, 1));
+    game.addThrow(new DartThrow(11, 1));
+    game.addThrow(new DartThrow(20, 2));
+    game.startRoundForPlayer();
+    game.addThrow(new DartThrow(25, 2));
+
+    expect(game.isGameFinished()).toBe(true);
+  });
+
   test("should return the winner when the game is finished", () => {
     const player = new Player("John");
     game.addPlayerPoints(player);

@@ -33,12 +33,12 @@ export class DartThrow implements IDartThrow {
 
   public setPoints(points: number): void {
     this._points = Points.create(points);
-    if (this.isSingleThrow()) {
+    if (this.isPointsWithInvalidMultiplier()) {
       this.setMultiplier(1);
     }
   }
   public setMultiplier(multiplier: number): void {
-    if (this.isSingleThrow()) {
+    if (this.isPointsWithInvalidMultiplier()) {
       this._multiplier = Multiplier.default;
       return;
     }
@@ -50,7 +50,9 @@ export class DartThrow implements IDartThrow {
   public isDouble(): boolean {
     return this._multiplier.equals(Multiplier.double);
   }
-  private isSingleThrow(): boolean {
-    return this._points.value === 25 || this._points.value === 50;
+  private isPointsWithInvalidMultiplier(): boolean {
+    return (
+      this._points.value === 25 && this._multiplier.equals(Multiplier.triple)
+    );
   }
 }
