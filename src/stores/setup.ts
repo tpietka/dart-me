@@ -8,12 +8,14 @@ interface SetupState {
   gameType: GameType | null;
   playersCount: number;
   players: string[];
+  doubleIn: boolean;
 }
 export const useSetupStore = defineStore("setup", {
   state: (): SetupState => ({
     gameType: null,
     playersCount: 1,
     players: [],
+    doubleIn: false,
   }),
   actions: {
     setGameType(type: GameType) {
