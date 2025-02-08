@@ -4,6 +4,7 @@ import { toRefs } from "vue";
 import { useGameStore } from "../stores/game";
 import BaseButton from "../components/common/BaseButton.vue";
 import DartBoard from "../components/DartBoard.vue";
+import RoundThrows from "../components/RoundThrows.vue";
 
 const { currentPlayer } = toRefs(useGameStore());
 const { startRoundForPlayer } = useGameStore();
@@ -15,12 +16,19 @@ const nextPlayer = () => {
 </script>
 
 <template>
-  <dart-board :points="currentPlayer?.throwPoints"></dart-board>
-  <div class="flex justify-between mb-6 mt-12">
+  <h1 class="text-2xl mb-4">
+    {{ `${currentPlayer?.playerName}'s round review` }}
+  </h1>
+  <div class="flex flex-col">
+    <div class="text-3xl"></div>
+  </div>
+  <dart-board :points="currentPlayer?.throwPoints" />
+  <round-throws :dart-throws="currentPlayer?.throwPoints" />
+  <div class="flex justify-between">
     <div>
-      <div class="text-sm">Player</div>
+      <div class="text-sm">Poinst scored</div>
       <div class="text-3xl">
-        {{ currentPlayer?.playerName }}
+        {{ currentPlayer?.scoredPoints.value }}
       </div>
     </div>
     <div>
@@ -30,14 +38,6 @@ const nextPlayer = () => {
       </div>
     </div>
   </div>
-  <div>
-    <div class="text-sm">Poinst scored</div>
-    <div class="text-3xl">
-      {{ currentPlayer?.scoredPoints.value }}
-    </div>
-  </div>
-  <!-- TODO: Add dart board svg with highlighted hit segments -->
 
-  <!-- TODO: Add option to edit throws -->
-  <base-button class="mt-12" @click="nextPlayer">Next player</base-button>
+  <base-button class="mt-6" @click="nextPlayer">Next</base-button>
 </template>
