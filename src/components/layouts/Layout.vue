@@ -3,10 +3,9 @@ import { toRefs } from "vue";
 import { useGameStore } from "../../stores/game";
 import { useRouter } from "vue-router";
 import ContentContainer from "../common/ContentContainer.vue";
-import { useSetupStore } from "../../stores/setup";
 const router = useRouter();
 const { removeGame } = useGameStore();
-const { gameType } = toRefs(useSetupStore());
+const { gameType } = toRefs(useGameStore());
 const navigateHome = () => {
   if (confirm("Are you sure you want to leave the game?")) {
     removeGame();

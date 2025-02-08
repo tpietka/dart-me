@@ -7,7 +7,7 @@ import { toRefs } from "vue";
 const { setGameType } = useSetupStore();
 const { doubleIn } = toRefs(useSetupStore());
 const router = useRouter();
-type GameType = "301" | "501" | "practice";
+type GameType = "301" | "501" | "Practice";
 const selectGameType = (gameType: GameType) => {
   setGameType(gameType);
   router.push({ name: "SetupPlayersNumber" });
@@ -18,7 +18,7 @@ const selectGameType = (gameType: GameType) => {
   <div class="flex flex-col gap-6 items-center">
     <base-option @click="selectGameType('301')">301</base-option>
     <base-option @click="selectGameType('501')">501</base-option>
-    <base-option @click="selectGameType('practice')">Practice</base-option>
+    <base-option @click="selectGameType('Practice')">Practice</base-option>
   </div>
   <div class="flex gap-2 justify-center items-center align-center mt-6">
     <input v-model="doubleIn" type="checkbox" name="double-in" />

@@ -1,18 +1,15 @@
 import { defineStore } from "pinia";
-export type GameType = "301" | "501" | "practice";
-export interface Player {
-  name: string;
-}
+export type GameType = "301" | "501" | "Practice";
 
 interface SetupState {
-  gameType: GameType | null;
+  gameType: GameType;
   playersCount: number;
   players: string[];
   doubleIn: boolean;
 }
 export const useSetupStore = defineStore("setup", {
   state: (): SetupState => ({
-    gameType: null,
+    gameType: "Practice",
     playersCount: 1,
     players: [],
     doubleIn: false,

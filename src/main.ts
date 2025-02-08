@@ -8,7 +8,7 @@ import { GameNotStartedException } from "./exceptions/GameNotStartedException";
 
 const app = createApp(App);
 
-app.config.errorHandler = (err, vm, info) => {
+app.config.errorHandler = (err) => {
   if (err instanceof GameNotStartedException) {
     alert("The game has not started yet. Please start the game first.");
     router.push({ name: "Home" });

@@ -11,14 +11,14 @@ const { game, startingPoints } = toRefs(useGameStore());
 const router = useRouter();
 
 onBeforeMount(() => {
-  createGame(players, gameType ?? "practice");
+  createGame(players, gameType ?? "Practice");
 });
 
 const gameStartingPoints = computed(() => {
   if (gameType != "301" && gameType != "501") {
     return "-";
   }
-  return startingPoints;
+  return startingPoints.value.value;
 });
 
 const startGame = () => {
@@ -44,7 +44,7 @@ const startGame = () => {
       </div>
     </div>
     <div>
-      <div v-if="gameType != 'practice'">
+      <div v-if="gameType != 'Practice'">
         <div class="text-3xl mb-4 mt-4">Rules</div>
         <div class="flex flex-col gap-2">
           <div>Each player starts with a score of {{ gameType }} points.</div>

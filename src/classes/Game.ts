@@ -108,6 +108,10 @@ export class NullGame implements IGame {
     this._currentPlayerPoints = NullPlayerPoints.create();
   }
 
+  public get points() {
+    return this._startingPoints;
+  }
+
   public get roundNumber(): RoundNumber {
     return RoundNumber.zero;
   }

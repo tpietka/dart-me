@@ -5,16 +5,18 @@ import { IPlayer, Player } from "../classes/Player";
 import { Points } from "../classes/ValueObjects/Points";
 import { ThrowResult } from "../classes/ThrowResult";
 import { IPlayerPoints } from "../classes/PlayerPoints";
-export type GameType = "301" | "501" | "practice";
+export type GameType = "301" | "501" | "Practice";
 
 interface GameState {
   game: Game | NullGame;
   startingPoints: Points;
+  gameType: string;
 }
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
     game: NullGame.create(Points.zero),
     startingPoints: Points.zero,
+    gameType: "",
   }),
   getters: {
     pointsLeft(): number {
@@ -40,11 +42,13 @@ export const useGameStore = defineStore("game", {
     },
     removeGame(): void {
       this.startingPoints = Points.zero;
+      this.gameType = "";
       this.game = NullGame.create(this.startingPoints as Points);
     },
     createGame(players: string[], gameType: GameType): void {
+      this.gameType = gameType;
       this.startingPoints = Points.create(
-        gameType === "practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType)
+        gameType === "Practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType)
       );
       this.game = Game.create(this.startingPoints as Points);
       this.createPlayers(players);

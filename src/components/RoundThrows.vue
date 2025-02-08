@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { IDartThrow } from "../classes/DartThrow";
 
-const props = defineProps<{
+defineProps<{
   dartThrows: IDartThrow[];
 }>();
 </script>
