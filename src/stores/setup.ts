@@ -22,11 +22,20 @@ export const useSetupStore = defineStore("setup", {
     setPlayersCount(count: number) {
       this.playersCount = count;
     },
-    addPlayers(playersNames: string[]) {
+    addPlayers(playersNames: string[], randomOrder: boolean) {
       this.players = [];
       playersNames.forEach((name) => {
         this.players.push(name);
       });
+      if (randomOrder) {
+        this.shufflePlayers();
+      }
+    },
+    shufflePlayers() {
+      for (let i = this.players.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [this.players[i], this.players[j]] = [this.players[j], this.players[i]];
+      }
     },
   },
 });
