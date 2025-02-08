@@ -5,6 +5,8 @@ import { useGameStore } from "../stores/game";
 import BaseButton from "../components/common/BaseButton.vue";
 import DartBoard from "../components/DartBoard.vue";
 import RoundThrows from "../components/RoundThrows.vue";
+import PointsLeft from "../components/PointsLeft.vue";
+import PointsScored from "../components/PointsScored.vue";
 
 const { currentPlayer } = toRefs(useGameStore());
 const { startRoundForPlayer } = useGameStore();
@@ -25,18 +27,8 @@ const nextPlayer = () => {
   <dart-board :points="currentPlayer?.throwPoints" />
   <round-throws :dart-throws="currentPlayer?.throwPoints" />
   <div class="flex justify-between">
-    <div>
-      <div class="text-sm">Poinst scored</div>
-      <div class="text-3xl">
-        {{ currentPlayer?.scoredPoints.value }}
-      </div>
-    </div>
-    <div>
-      <div class="text-sm">Poinst left</div>
-      <div class="text-3xl">
-        {{ currentPlayer?.pointsLeft.value }}
-      </div>
-    </div>
+    <points-scored :points-scored="currentPlayer?.scoredPoints.value" />
+    <points-left :points-left="currentPlayer?.pointsLeft.value" />
   </div>
 
   <base-button class="mt-6" @click="nextPlayer">Next</base-button>

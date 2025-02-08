@@ -6,6 +6,8 @@ import { computed, ref, toRefs } from "vue";
 import BaseButton from "../components/common/BaseButton.vue";
 import ThrowPoints from "../components/ThrowPoints.vue";
 import ThrowMultiplier from "../components/ThrowMultiplier.vue";
+import PointsLeft from "../components/PointsLeft.vue";
+import PlayerThrowing from "../components/PlayerThrowing.vue";
 
 const { currentPlayer, round, pointsLeft, throwNumber } = toRefs(
   useGameStore()
@@ -41,12 +43,7 @@ const score = computed(() => {
 </script>
 <template>
   <div class="flex justify-between items-baseline mb-4">
-    <div>
-      <div class="text-sm">Now throwing</div>
-      <div class="text-xl font-medium">
-        {{ currentPlayer?.playerName }}
-      </div>
-    </div>
+    <player-throwing :player-name="currentPlayer?.playerName" />
     <div>
       <div class="text-sm">
         {{ `Round ${round}` }}
@@ -55,12 +52,7 @@ const score = computed(() => {
         {{ `Throw ${currentThrow}/3` }}
       </div>
     </div>
-    <div>
-      <div class="text-sm">Points left</div>
-      <div class="text-xl font-medium">
-        {{ pointsLeft }}
-      </div>
-    </div>
+    <points-left :points-left="pointsLeft" />
   </div>
   <div class="flex flex-wrap justify-center gap-1 mt-4">
     <throw-points
