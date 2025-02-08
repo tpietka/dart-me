@@ -20,8 +20,8 @@ const endGame = () => {
 </script>
 
 <template>
-  <div>
-    <trophy class="my-8"></trophy>
+  <div class="flex flex-col justify-center items-center">
+    <trophy class="my-6"></trophy>
     <div class="text-3xl font-bold">{{ winner?.getName() }}</div>
   </div>
   <base-button class="mt-8" @click="endGame()">New game</base-button>

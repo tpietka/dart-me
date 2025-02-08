@@ -40,27 +40,29 @@ const score = computed(() => {
 });
 </script>
 <template>
-  <div class="flex justify-between mb-4">
+  <div class="flex justify-between items-baseline mb-4">
     <div>
       <div class="text-sm">Now throwing</div>
-      <div class="text-2xl">
+      <div class="text-xl font-medium">
         {{ currentPlayer?.playerName }}
       </div>
     </div>
     <div>
+      <div class="text-sm">
+        {{ `Round ${round}` }}
+      </div>
+      <div class="text-xl">
+        {{ `Throw ${currentThrow}/3` }}
+      </div>
+    </div>
+    <div>
       <div class="text-sm">Points left</div>
-      <div class="text-2xl">
+      <div class="text-xl font-medium">
         {{ pointsLeft }}
       </div>
     </div>
   </div>
-  <div class="text-md">
-    {{ `Round ${round}` }}
-  </div>
-  <div class="mt-2 text-2xl">
-    {{ `Throw ${currentThrow}/3` }}
-  </div>
-  <div class="flex flex-wrap justify-center gap-2 mt-4">
+  <div class="flex flex-wrap justify-center gap-1 mt-4">
     <throw-points
       v-for="point in dartPoints"
       :key="point"

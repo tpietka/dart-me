@@ -13,7 +13,10 @@ const selectGameType = (gameType: GameType) => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
+  <h1 class="text-2xl mb-6">
+    {{ $route.meta.title }}
+  </h1>
+  <div class="flex flex-col gap-6 items-center">
     <base-option @click="selectGameType('301')">301</base-option>
     <base-option @click="selectGameType('501')">501</base-option>
     <base-option @click="selectGameType('practice')">Practice</base-option>
