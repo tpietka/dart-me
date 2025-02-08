@@ -23,6 +23,11 @@ export const useSetupStore = defineStore("setup", {
       this.playersCount = count;
     },
     addPlayers(playersNames: string[], randomOrder: boolean) {
+      if (playersNames.length === 0) {
+        for (let i = 1; i <= this.playersCount; i++) {
+          playersNames.push(`Player ${i}`);
+        }
+      }
       this.players = [];
       playersNames.forEach((name) => {
         this.players.push(name);
