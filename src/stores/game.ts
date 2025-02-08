@@ -2,9 +2,11 @@ import { defineStore } from "pinia";
 import { IDartThrow } from "../classes/DartThrow";
 import { Game, NullGame } from "../classes/Game";
 import { IPlayer, Player } from "../classes/Player";
-import { Points } from "../classes/ValueObjects/Points";
+import { Points } from "../classes/valueObjects/Points";
 import { ThrowResult } from "../classes/ThrowResult";
 import { IPlayerPoints } from "../classes/PlayerPoints";
+import { IInRule } from "../classes/IInRule";
+import { IOutRule } from "../classes/IOutRule";
 export type GameType = "301" | "501" | "Practice";
 
 interface GameState {
@@ -45,12 +47,18 @@ export const useGameStore = defineStore("game", {
       this.gameType = "";
       this.game = NullGame.create(this.startingPoints as Points);
     },
-    createGame(players: string[], gameType: GameType): void {
+    createGame(
+      players: string[],
+      gameType: GameType,
+      inRule: IInRule,
+      outRule: IOutRule
+    ): void {
       this.gameType = gameType;
       this.startingPoints = Points.create(
         gameType === "Practice" ? Number.MAX_SAFE_INTEGER : parseInt(gameType)
       );
-      this.game = Game.create(this.startingPoints as Points);
+
+      this.game = Game.create(this.startingPoints as Points, inRule, outRule);
       this.createPlayers(players);
     },
     createPlayers(players: string[]): void {

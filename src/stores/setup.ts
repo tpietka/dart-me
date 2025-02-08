@@ -6,6 +6,7 @@ interface SetupState {
   playersCount: number;
   players: string[];
   doubleIn: boolean;
+  doubleOut: boolean;
 }
 export const useSetupStore = defineStore("setup", {
   state: (): SetupState => ({
@@ -13,6 +14,7 @@ export const useSetupStore = defineStore("setup", {
     playersCount: 1,
     players: [],
     doubleIn: false,
+    doubleOut: true,
   }),
   actions: {
     setGameType(type: GameType) {

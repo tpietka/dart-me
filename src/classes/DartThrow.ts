@@ -1,5 +1,5 @@
-import { Multiplier } from "./ValueObjects/Multiplier";
-import { Points } from "./ValueObjects/Points";
+import { Multiplier } from "./valueObjects/Multiplier";
+import { Points } from "./valueObjects/Points";
 
 export interface IDartThrow {
   points: number;
@@ -15,7 +15,6 @@ export class DartThrow implements IDartThrow {
   private _multiplier: Multiplier = Multiplier.default;
 
   public constructor(points: number, multiplier: number) {
-    //TODO: Add validation for points
     this._points = Points.create(points);
     this._multiplier = Multiplier.create(multiplier);
   }

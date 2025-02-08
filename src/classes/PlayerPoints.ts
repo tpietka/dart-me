@@ -1,8 +1,12 @@
 import { IDartThrow } from "./DartThrow";
+import { IInRule } from "./IInRule";
+import { IOutRule } from "./IOutRule";
 import { IPlayer, Player } from "./Player";
 import { NullRoundPoints, RoundPoints } from "./RoundPoints";
-import { Points } from "./ValueObjects/Points";
-import { RoundNumber } from "./ValueObjects/RoundNumber";
+import { DefaultInRule } from "./rules/DefaultInRule";
+import { DefaultOutRule } from "./rules/DefaultOutRule";
+import { Points } from "./valueObjects/Points";
+import { RoundNumber } from "./valueObjects/RoundNumber";
 
 export interface IPlayerPoints {
   playerName: string;
@@ -22,10 +26,19 @@ export class PlayerPoints {
   private _player: IPlayer;
   private _points: RoundPoints[] = [];
   private readonly _startingPoints: Points;
+  private readonly _inRule: IInRule;
+  private readonly _outRule: IOutRule;
 
-  constructor(player: IPlayer, startingPoints: Points) {
+  constructor(
+    player: IPlayer,
+    startingPoints: Points,
+    inRule: IInRule,
+    outRule: IOutRule
+  ) {
     this._player = player;
     this._startingPoints = startingPoints;
+    this._inRule = inRule;
+    this._outRule = outRule;
   }
 
   public get roundNumber(): RoundNumber {
@@ -69,7 +82,7 @@ export class PlayerPoints {
     this.getActiveRoundPoints().addThrow(dartThrow);
   }
   public hasWon() {
-    return this._points.some((round) => round.hasWon());
+    return this._points.some((round) => round.hasWon);
   }
   public hasCompletedRound(roundNumber: RoundNumber): boolean {
     return (
@@ -88,14 +101,23 @@ export class PlayerPoints {
       throw new Error("Previous round has not been completed");
     }
 
-    const roundPoints = new RoundPoints(previousRound.pointsLeft, roundNumber);
+    const roundPoints = new RoundPoints(
+      previousRound.pointsLeft,
+      roundNumber,
+      previousRound.inRule ?? this._inRule,
+      previousRound.outRule ?? this._outRule
+    );
     this._points.push(roundPoints);
   }
   private getActiveRoundPoints() {
     if (this._points.length > 0) {
       return this._points[this._points.length - 1];
     }
-    return new NullRoundPoints(this._startingPoints);
+    return new NullRoundPoints(
+      this._startingPoints,
+      this._inRule,
+      this._outRule
+    );
   }
   private hasCompletedActiveRound() {
     return this.getActiveRoundPoints().hasCompletedRound ?? false;
@@ -104,7 +126,12 @@ export class PlayerPoints {
 
 export class NullPlayerPoints extends PlayerPoints implements IPlayerPoints {
   public static create(): NullPlayerPoints {
-    return new NullPlayerPoints(new Player("Nodody"), Points.zero);
+    return new NullPlayerPoints(
+      new Player("Nodody"),
+      Points.zero,
+      DefaultInRule.create(),
+      DefaultOutRule.create()
+    );
   }
   public get pointsLeft(): Points {
     return Points.zero;

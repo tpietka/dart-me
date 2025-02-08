@@ -20,6 +20,14 @@ const routes = [
         },
       },
       {
+        path: "/game-rules",
+        name: "SetupGameRules",
+        component: async () => await import("../pages/SelectGameRules.vue"),
+        meta: {
+          title: "Select Game Rules",
+        },
+      },
+      {
         path: "/select-players-number",
         name: "SetupPlayersNumber",
         component: async () =>

@@ -1,15 +1,17 @@
 import { GameNotStartedException } from "../exceptions/GameNotStartedException";
 import { IDartThrow } from "./DartThrow";
+import { IInRule } from "./IInRule";
+import { IOutRule } from "./IOutRule";
 import { IPlayer } from "./Player";
 import { IPlayerPoints, NullPlayerPoints, PlayerPoints } from "./PlayerPoints";
 import { ThrowResult } from "./ThrowResult";
-import { Points } from "./ValueObjects/Points";
-import { RoundNumber } from "./ValueObjects/RoundNumber";
+import { Points } from "./valueObjects/Points";
+import { RoundNumber } from "./valueObjects/RoundNumber";
 
 export interface IGame {
   roundNumber: RoundNumber;
   addThrow(dartThrow: IDartThrow): ThrowResult;
-  addPlayerPoints(player: IPlayer): void;
+  addPlayerPoints(player: IPlayer, inRule: IInRule, outRule: IOutRule): void;
   getPlayersNames(): string[];
   getWinner(): IPlayer | null;
   startRoundForPlayer(): void;
@@ -24,12 +26,20 @@ export class Game implements IGame {
   private _roundNumber: RoundNumber = RoundNumber.create();
   private _startingPoints: Points;
 
-  private constructor(startingPoints: Points) {
+  private constructor(
+    startingPoints: Points,
+    private inRule: IInRule,
+    private outRule: IOutRule
+  ) {
     this._startingPoints = startingPoints;
     this._currentPlayerPoints = NullPlayerPoints.create();
   }
-  public static create(startingPoints: Points): Game {
-    return new Game(startingPoints);
+  public static create(
+    startingPoints: Points,
+    inRule: IInRule,
+    outRule: IOutRule
+  ): Game {
+    return new Game(startingPoints, inRule, outRule);
   }
   public get roundNumber(): RoundNumber {
     return this._roundNumber;
@@ -38,7 +48,12 @@ export class Game implements IGame {
     return this._winner;
   }
   public addPlayerPoints(player: IPlayer): void {
-    const manager = new PlayerPoints(player, this._startingPoints);
+    const manager = new PlayerPoints(
+      player,
+      this._startingPoints,
+      this.inRule,
+      this.outRule
+    );
     this._playerPointss.push(manager);
   }
   public getPlayersNames(): string[] {

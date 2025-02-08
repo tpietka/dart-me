@@ -1,6 +1,9 @@
 import { DartThrow, IDartThrow } from "./DartThrow";
-import { Points } from "./ValueObjects/Points";
-import { RoundNumber } from "./ValueObjects/RoundNumber";
+import { IOutRule } from "./IOutRule";
+import { IInRule } from "./IInRule";
+import { Points } from "./valueObjects/Points";
+import { RoundNumber } from "./valueObjects/RoundNumber";
+import { DefaultInRule } from "./rules/DefaultInRule";
 
 export interface IRoundPoints {
   throwsCount: number;
@@ -15,21 +18,41 @@ export interface IRoundPoints {
 }
 
 export class RoundPoints {
+  private _inRule: IInRule;
+  private _outRule: IOutRule;
   private _throws: IDartThrow[] = [];
   private _startingPoints: Points;
   private _pointsLeft: Points = Points.zero;
   private _pointsScored: Points = Points.zero;
   private _roundNumber: RoundNumber;
-  private readonly minimalRemainingPointsToWin = Points.create(2);
+  private _hasWon: boolean = false;
 
-  constructor(startingPoints: Points, roundNumber: RoundNumber) {
+  constructor(
+    startingPoints: Points,
+    roundNumber: RoundNumber,
+    inRule: IInRule,
+    outRule: IOutRule
+  ) {
     this._startingPoints = startingPoints;
     this._pointsLeft = startingPoints;
     this._roundNumber = roundNumber;
+    this._inRule = inRule;
+    this._outRule = outRule;
   }
 
+  get hasWon(): boolean {
+    return this._hasWon;
+  }
   get throwsCount(): number {
     return this._throws.length;
+  }
+
+  get inRule(): IInRule {
+    return this._inRule;
+  }
+
+  get outRule(): IOutRule {
+    return this._outRule;
   }
 
   get pointsLeft(): Points {
@@ -59,21 +82,25 @@ export class RoundPoints {
   public addThrow(dartThrow: IDartThrow): void {
     this._throws.push(dartThrow);
     this._pointsLeft = this._pointsLeft.subtract(dartThrow.getScore());
-    if (this.isBust()) {
+    if (!this._inRule.pass(dartThrow)) {
       this.resetPoints();
       this.nullifyRemainingThrows();
       return;
     }
+    this._inRule = DefaultInRule.create();
+    if (!this._outRule.pass(dartThrow, this._pointsLeft)) {
+      if (this.isBust()) {
+        this.resetPoints();
+        this.nullifyRemainingThrows();
+        return;
+      }
+    } else {
+      this._hasWon = true;
+    }
     this.calculatePointsScored();
   }
-  public hasWon(): boolean {
-    return this._pointsLeft.isZero() && this.wasLastThrowDouble();
-  }
   private isBust(): boolean {
-    return (
-      !this.hasWon() &&
-      this._pointsLeft.isLowerThan(this.minimalRemainingPointsToWin)
-    );
+    return this._pointsLeft.isLowerThan(this._outRule.minimalPointsLeftToWin);
   }
   private resetPoints(): void {
     this._pointsLeft = this._startingPoints;
@@ -86,12 +113,6 @@ export class RoundPoints {
     });
     this._pointsScored = throwsSum;
   }
-  private wasLastThrowDouble(): boolean {
-    if (this._throws.length === 0) {
-      return false;
-    }
-    return this._throws[this._throws.length - 1].isDouble();
-  }
   private nullifyRemainingThrows(): void {
     while (this._throws.length < 3) {
       this._throws.push(DartThrow.empty());
@@ -100,14 +121,14 @@ export class RoundPoints {
 }
 
 export class NullRoundPoints extends RoundPoints {
-  constructor(startingPoints: Points) {
-    super(startingPoints, RoundNumber.zero);
+  constructor(startingPoints: Points, inRule: IInRule, outRule: IOutRule) {
+    super(startingPoints, RoundNumber.zero, inRule, outRule);
   }
   get hasCompletedRound(): boolean {
     return true;
   }
   public addThrow(): void {}
-  public hasWon(): boolean {
+  public get hasWon(): boolean {
     return false;
   }
 }
