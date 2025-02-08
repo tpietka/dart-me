@@ -3,18 +3,18 @@ const routes = [
   {
     path: "/",
     name: "Layout",
-    component: import("../components/layouts/Layout.vue"),
+    component: async () => await import("../components/layouts/Layout.vue"),
     redirect: "Home",
     children: [
       {
         path: "/",
         name: "Home",
-        component: import("../pages/StartPage.vue"),
+        component: async () => await import("../pages/StartPage.vue"),
       },
       {
         path: "/game-type",
         name: "SetupGameType",
-        component: import("../pages/SelectGameType.vue"),
+        component: async () => await import("../pages/SelectGameType.vue"),
         meta: {
           title: "Select Game Type",
         },
@@ -22,7 +22,8 @@ const routes = [
       {
         path: "/select-players-number",
         name: "SetupPlayersNumber",
-        component: import("../pages/SelectNumberOfPlayers.vue"),
+        component: async () =>
+          await import("../pages/SelectNumberOfPlayers.vue"),
         meta: {
           title: "Select Number of Players",
         },
@@ -30,7 +31,7 @@ const routes = [
       {
         path: "/add-players",
         name: "SetupAddPlayers",
-        component: import("../pages/AddPlayers.vue"),
+        component: async () => await import("../pages/AddPlayers.vue"),
         meta: {
           title: "Add Players",
         },
@@ -38,7 +39,7 @@ const routes = [
       {
         path: "/game",
         name: "GameDetails",
-        component: import("../pages/GameDetails.vue"),
+        component: async () => await import("../pages/GameDetails.vue"),
         meta: {
           title: "Game details",
         },
@@ -46,7 +47,7 @@ const routes = [
       {
         path: "winner",
         name: "WinnerDetails",
-        component: import("../pages/WinnerDetails.vue"),
+        component: async () => await import("../pages/WinnerDetails.vue"),
         meta: {
           title: "Winner",
         },
@@ -54,12 +55,13 @@ const routes = [
       {
         path: "/player-round-summary",
         name: "PlayerRound",
-        component: import("../pages/PlayerRound.vue"),
+        component: async () => await import("../pages/PlayerRound.vue"),
         children: [
           {
             path: "/round-review",
             name: "PlayerRoundReview",
-            component: import("../pages/PlayerRoundReview.vue"),
+            component: async () =>
+              await import("../pages/PlayerRoundReview.vue"),
             meta: {
               title: "",
             },
@@ -67,7 +69,8 @@ const routes = [
           {
             path: "/select-points",
             name: "AddThrowPoints",
-            component: import("../pages/SelectThrowPoints.vue"),
+            component: async () =>
+              await import("../pages/SelectThrowPoints.vue"),
             meta: {
               title: "",
             },
@@ -78,6 +81,6 @@ const routes = [
   },
 ];
 export const router = createRouter({
-  history: createWebHistory("/"),
+  history: createWebHistory("/dart/"),
   routes,
 });
