@@ -61,7 +61,7 @@ const routes = [
             name: "PlayerRoundReview",
             component: import("../pages/PlayerRoundReview.vue"),
             meta: {
-              title: "Player round review",
+              title: "",
             },
           },
           {
@@ -69,7 +69,7 @@ const routes = [
             name: "AddThrowPoints",
             component: import("../pages/SelectThrowPoints.vue"),
             meta: {
-              title: "Select points",
+              title: "",
             },
           },
         ],

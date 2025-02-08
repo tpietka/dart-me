@@ -23,6 +23,9 @@ const navigateHome = () => {
       {{ startingPoints.value }}
     </span>
   </div>
+  <h1 class="text-2xl mb-6">
+    {{ $route.meta.title }}
+  </h1>
   <content-container>
     <router-view />
   </content-container>

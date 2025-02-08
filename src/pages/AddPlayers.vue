@@ -15,14 +15,12 @@ const setPlayersNames = () => {
 </script>
 
 <template>
-  <h1 class="text-2xl mb-6">
-    {{ $route.meta.title }}
-  </h1>
   <div class="flex flex-col gap-6 items-center">
     <input
       class="py-4 px-24 border rounded-xl bg-gray-800 text-center"
       v-for="n in store.playersCount"
       :key="n"
+      :placeholder="`Player ${n}`"
       v-model="players[n]"
     />
   </div>
