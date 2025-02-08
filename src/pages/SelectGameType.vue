@@ -8,7 +8,9 @@ const router = useRouter();
 type GameType = "301" | "501" | "Practice";
 const selectGameType = (gameType: GameType) => {
   setGameType(gameType);
-  router.push({ name: "SetupGameRules" });
+  const route =
+    gameType === "Practice" ? "SetupPlayersNumber" : "SetupGameRules";
+  router.push({ name: route });
 };
 </script>
 
