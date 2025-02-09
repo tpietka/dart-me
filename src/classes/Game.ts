@@ -94,7 +94,7 @@ export class Game implements IGame {
     return this._currentPlayerPoints;
   }
   private nextRound(): void {
-    this._roundNumber = this._roundNumber.next();
+    this._roundNumber = this._roundNumber.getNext();
   }
   private isEndOfRound(): boolean {
     return this._playerPointss.every((manager) =>

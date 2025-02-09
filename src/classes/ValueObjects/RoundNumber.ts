@@ -16,7 +16,7 @@ export class RoundNumber {
     return new RoundNumber(1);
   }
 
-  public next(): RoundNumber {
+  public getNext(): RoundNumber {
     return new RoundNumber(this._value + 1);
   }
 

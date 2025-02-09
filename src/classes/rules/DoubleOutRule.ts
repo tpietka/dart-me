@@ -3,8 +3,10 @@ import { IOutRule } from "../IOutRule";
 import { Points } from "../valueObjects/Points";
 
 export class DoubleOutRule implements IOutRule {
-  public get minimalPointsLeftToWin(): Points {
-    return Points.create(2);
+  private _minimalPointsLeftToWin: Points = Points.create(2);
+
+  public static create(): DoubleOutRule {
+    return new DoubleOutRule();
   }
 
   public pass(dartThrow: IDartThrow, pointsLeft: Points): boolean {
@@ -13,7 +15,10 @@ export class DoubleOutRule implements IOutRule {
     }
     return false;
   }
-  public hasWon(dartThrow: IDartThrow, pointsLeft: Points): boolean {
+  public isBust(pointsLeft: Points) {
+    return pointsLeft.isLowerThan(this._minimalPointsLeftToWin);
+  }
+  private hasWon(dartThrow: IDartThrow, pointsLeft: Points): boolean {
     return pointsLeft.isZero() && dartThrow.isDouble();
   }
 }

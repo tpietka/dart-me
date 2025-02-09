@@ -88,19 +88,18 @@ export class RoundPoints {
       return;
     }
     this._inRule = DefaultInRule.create();
-    if (!this._outRule.pass(dartThrow, this._pointsLeft)) {
+    this._hasWon = this._outRule.pass(dartThrow, this._pointsLeft);
+    if (!this._hasWon) {
       if (this.isBust()) {
         this.resetPoints();
         this.nullifyRemainingThrows();
         return;
       }
-    } else {
-      this._hasWon = true;
     }
     this.calculatePointsScored();
   }
   private isBust(): boolean {
-    return this._pointsLeft.isLowerThan(this._outRule.minimalPointsLeftToWin);
+    return this._outRule.isBust(this._pointsLeft);
   }
   private resetPoints(): void {
     this._pointsLeft = this._startingPoints;

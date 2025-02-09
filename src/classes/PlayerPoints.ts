@@ -104,8 +104,8 @@ export class PlayerPoints {
     const roundPoints = new RoundPoints(
       previousRound.pointsLeft,
       roundNumber,
-      previousRound.inRule ?? this._inRule,
-      previousRound.outRule ?? this._outRule
+      previousRound.inRule,
+      previousRound.outRule
     );
     this._points.push(roundPoints);
   }
