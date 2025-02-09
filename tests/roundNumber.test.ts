@@ -1,4 +1,4 @@
-import { RoundNumber } from "../src/classes/ValueObjects/RoundNumber";
+import { RoundNumber } from "../src/classes/valueObjects/RoundNumber";
 
 describe("test RoundNumber class", () => {
   it("should create a default RoundNumber object with value 1", () => {
@@ -10,12 +10,12 @@ describe("test RoundNumber class", () => {
   it("should get value + 1 after calling next method", () => {
     const roundNumber = RoundNumber.create();
 
-    expect(roundNumber.next().value).toBe(2);
+    expect(roundNumber.getNext().value).toBe(2);
   });
 
   it("should get value of 4 after calling next 3 times", () => {
     let roundNumber = RoundNumber.create();
-    roundNumber = roundNumber.next().next().next();
+    roundNumber = roundNumber.getNext().getNext().getNext();
 
     expect(roundNumber.value).toBe(4);
   });

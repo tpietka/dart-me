@@ -51,7 +51,9 @@ export class DartThrow implements IDartThrow {
   }
   private isPointsWithInvalidMultiplier(): boolean {
     return (
-      this._points.value === 25 && this._multiplier.equals(Multiplier.triple)
+      (this._points.value === 25 &&
+        this._multiplier.equals(Multiplier.triple)) ||
+      (this._points.value === 0 && !this._multiplier.equals(Multiplier.single))
     );
   }
 }

@@ -16,6 +16,6 @@ export class DefaultOutRule implements IOutRule {
     return pointsLeft.isLowerThan(this._minimalPointsLeftToWin);
   }
   private hasWon(dartThrow: IDartThrow, pointsLeft: Points): boolean {
-    return pointsLeft.isZero();
+    return pointsLeft.isZero() && dartThrow.getScore() > 0;
   }
 }

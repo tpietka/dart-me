@@ -248,4 +248,23 @@ describe("test PlayerPointsManager class", () => {
     expect(pointsManager.hasCompletedRound(roundNumber)).toBe(true);
     expect(pointsManager.pointsLeft.value).toBe(501);
   });
+
+  it("should start with double-in rule and finish round when hitting zero", () => {
+    //Arrange
+    const roundNumber = RoundNumber.create();
+    const pointsManager = new PlayerPoints(
+      new Player("Rob"),
+      Points.create(501),
+      DoubleInRule.create(),
+      outRule
+    );
+
+    //Act
+    pointsManager.addRound(roundNumber);
+    pointsManager.addThrow(new DartThrow(0, 2));
+
+    //Assert
+    expect(pointsManager.hasCompletedRound(roundNumber)).toBe(true);
+    expect(pointsManager.pointsLeft.value).toBe(501);
+  });
 });

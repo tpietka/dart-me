@@ -70,13 +70,13 @@ const score = computed(() => {
       >Single</throw-multiplier
     >
     <throw-multiplier
-      v-if="dartThrow.points <= 25"
+      v-if="dartThrow.points <= 25 && dartThrow.points > 0"
       :class="[{ 'bg-red-800': 2 === dartThrow.multiplier }]"
       @click="setMultiplier(2)"
       >Double</throw-multiplier
     >
     <throw-multiplier
-      v-if="dartThrow.points <= 20"
+      v-if="dartThrow.points <= 20 && dartThrow.points > 0"
       :class="[{ 'bg-red-800': 3 === dartThrow.multiplier }]"
       @click="setMultiplier(3)"
       >Triple</throw-multiplier
