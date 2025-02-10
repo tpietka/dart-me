@@ -1,7 +1,7 @@
 import { Game, IGame, NullGame } from "../src/classes/Game";
 import { Points } from "../src/classes/valueObjects/Points";
 import { Player } from "../src/classes/Player";
-import { DartThrow, IDartThrow } from "../src/classes/DartThrow";
+import { DartThrow } from "../src/classes/DartThrow";
 import { ThrowResult } from "../src/classes/ThrowResult";
 import { DefaultInRule } from "../src/classes/rules/DefaultInRule";
 import { DoubleOutRule } from "../src/classes/rules/DoubleOutRule";
