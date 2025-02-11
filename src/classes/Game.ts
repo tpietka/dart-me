@@ -1,5 +1,6 @@
 import { GameNotStartedException } from "../exceptions/GameNotStartedException";
 import { IDartThrow } from "./DartThrow";
+import { GameType } from "./GameType";
 import { IInRule } from "./IInRule";
 import { IOutRule } from "./IOutRule";
 import { IPlayer } from "./Player";
@@ -25,27 +26,32 @@ export class Game implements IGame {
   private _currentPlayerPoints: IPlayerPoints;
   private _roundNumber: RoundNumber = RoundNumber.create();
   private _startingPoints: Points;
+  private _gameType: GameType;
 
   private constructor(
-    startingPoints: Points,
+    gameType: GameType,
     private inRule: IInRule,
     private outRule: IOutRule
   ) {
-    this._startingPoints = startingPoints;
+    this._gameType = gameType;
+    this._startingPoints = gameType.getStartingPoints();
     this._currentPlayerPoints = NullPlayerPoints.create();
   }
   public static create(
-    startingPoints: Points,
+    gameType: GameType,
     inRule: IInRule,
     outRule: IOutRule
   ): Game {
-    return new Game(startingPoints, inRule, outRule);
+    return new Game(gameType, inRule, outRule);
   }
   public get roundNumber(): RoundNumber {
     return this._roundNumber;
   }
   public getWinner(): IPlayer | null {
     return this._winner;
+  }
+  public getGameType(): string {
+    return this._gameType.getGameTypeName();
   }
   public addPlayerPoints(player: IPlayer): void {
     const manager = new PlayerPoints(

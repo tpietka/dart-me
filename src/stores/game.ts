@@ -7,8 +7,7 @@ import { ThrowResult } from "../classes/ThrowResult";
 import { IPlayerPoints } from "../classes/PlayerPoints";
 import { IInRule } from "../classes/IInRule";
 import { IOutRule } from "../classes/IOutRule";
-import { StartingPoints } from "../classes/StartingPoints";
-export type GameType = "301" | "501" | "Practice";
+import { GameType, GameTypes } from "../classes/GameType";
 
 interface GameState {
   game: Game | NullGame;
@@ -50,12 +49,11 @@ export const useGameStore = defineStore("game", {
     },
     createGame(
       players: string[],
-      gameType: GameType,
+      gameType: GameTypes,
       inRule: IInRule,
       outRule: IOutRule
     ): void {
-      const startingPoints = StartingPoints.prepareGameStartingPoints(gameType);
-      this.game = Game.create(startingPoints, inRule, outRule);
+      this.game = Game.create(new GameType(gameType), inRule, outRule);
       this.createPlayers(players);
     },
     createPlayers(players: string[]): void {

@@ -5,6 +5,7 @@ import { DartThrow } from "../src/classes/DartThrow";
 import { ThrowResult } from "../src/classes/ThrowResult";
 import { DefaultInRule } from "../src/classes/rules/DefaultInRule";
 import { DoubleOutRule } from "../src/classes/rules/DoubleOutRule";
+import { GameType } from "../src/classes/GameType";
 
 describe("Game Class", () => {
   let game: IGame;
@@ -12,7 +13,7 @@ describe("Game Class", () => {
   let outRule = DoubleOutRule.create();
 
   beforeEach(() => {
-    game = Game.create(Points.create(301), inRule, outRule);
+    game = Game.create(new GameType("301"), inRule, outRule);
   });
 
   test("should add players to the game", () => {
