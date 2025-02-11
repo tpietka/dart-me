@@ -5,7 +5,7 @@ import { useRouter } from "vue-router";
 import ContentContainer from "../common/ContentContainer.vue";
 const router = useRouter();
 const { removeGame } = useGameStore();
-const { gameType } = toRefs(useGameStore());
+const { gameTypeName } = toRefs(useGameStore());
 const navigateHome = () => {
   if (confirm("Are you sure you want to leave the game?")) {
     removeGame();
@@ -20,7 +20,7 @@ const navigateHome = () => {
   >
     <span class="text-3xl" @click="navigateHome">Home</span>
     <span class="text-3xl">
-      {{ gameType }}
+      {{ gameTypeName }}
     </span>
   </div>
   <h1 class="text-2xl mb-6">

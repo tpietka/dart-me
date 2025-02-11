@@ -15,6 +15,7 @@ export interface IGame {
   addPlayerPoints(player: IPlayer, inRule: IInRule, outRule: IOutRule): void;
   getPlayersNames(): string[];
   getWinner(): IPlayer | null;
+  getGameType(): string;
   startRoundForPlayer(): void;
   isGameFinished(): boolean;
   getCurrentPlayer(): IPlayerPoints | null;
@@ -127,6 +128,9 @@ export class NullGame implements IGame {
   private constructor(startingPoints: Points) {
     this._startingPoints = startingPoints;
     this._currentPlayerPoints = NullPlayerPoints.create();
+  }
+  getGameType(): string {
+    return "-";
   }
 
   public get points() {

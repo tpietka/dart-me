@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-export type GameType = "301" | "501" | "Practice";
+import { GameTypes } from "../classes/GameType";
 
 interface SetupState {
-  gameType: GameType;
+  gameType: GameTypes;
   playersCount: number;
   players: string[];
   doubleIn: boolean;
@@ -17,7 +17,7 @@ export const useSetupStore = defineStore("setup", {
     doubleOut: true,
   }),
   actions: {
-    setGameType(type: GameType) {
+    setGameType(type: GameTypes) {
       this.gameType = type;
     },
     setPlayersCount(count: number) {

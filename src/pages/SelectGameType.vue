@@ -2,11 +2,11 @@
 import { useRouter } from "vue-router";
 import { useSetupStore } from "../stores/setup";
 import BaseOption from "../components/common/BaseOption.vue";
+import { GameTypes } from "../classes/GameType";
 
 const { setGameType } = useSetupStore();
 const router = useRouter();
-type GameType = "301" | "501" | "Practice";
-const selectGameType = (gameType: GameType) => {
+const selectGameType = (gameType: GameTypes) => {
   setGameType(gameType);
   const route =
     gameType === "Practice" ? "SetupPlayersNumber" : "SetupGameRules";

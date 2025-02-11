@@ -12,13 +12,11 @@ import { GameType, GameTypes } from "../classes/GameType";
 interface GameState {
   game: Game | NullGame;
   startingPoints: Points;
-  gameType: string;
 }
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
     game: NullGame.create(Points.zero),
     startingPoints: Points.zero,
-    gameType: "",
   }),
   getters: {
     pointsLeft(): number {
@@ -33,6 +31,9 @@ export const useGameStore = defineStore("game", {
     throwNumber(): number {
       return this.game.getCurrentPlayer()?.throwNumber ?? 1;
     },
+    gameTypeName(): string {
+      return this.game.getGameType();
+    },
   },
   actions: {
     getWinner(): IPlayer | null {
@@ -44,7 +45,6 @@ export const useGameStore = defineStore("game", {
     },
     removeGame(): void {
       this.startingPoints = Points.zero;
-      this.gameType = "";
       this.game = NullGame.create(this.startingPoints as Points);
     },
     createGame(
