@@ -22,7 +22,7 @@ export interface IGame {
 }
 
 export class Game implements IGame {
-  private _playerPointss: IPlayerPoints[] = [];
+  private _playerPoints: IPlayerPoints[] = [];
   private _winner: IPlayer | null = null;
   private _currentPlayerPoints: IPlayerPoints;
   private _roundNumber: RoundNumber = RoundNumber.create();
@@ -61,10 +61,10 @@ export class Game implements IGame {
       this.inRule,
       this.outRule
     );
-    this._playerPointss.push(manager);
+    this._playerPoints.push(manager);
   }
   public getPlayersNames(): string[] {
-    return this._playerPointss.map((manager) => manager.playerName);
+    return this._playerPoints.map((manager) => manager.playerName);
   }
   public startRoundForPlayer(): void {
     this.nextPlayer();
@@ -104,20 +104,20 @@ export class Game implements IGame {
     this._roundNumber = this._roundNumber.getNext();
   }
   private isEndOfRound(): boolean {
-    return this._playerPointss.every((manager) =>
+    return this._playerPoints.every((manager) =>
       manager.hasCompletedRound(this._roundNumber)
     );
   }
   private nextPlayer(): void {
     if (!this._currentPlayerPoints) {
       {
-        this._currentPlayerPoints = this._playerPointss[0];
+        this._currentPlayerPoints = this._playerPoints[0];
       }
     } else {
       const nextPlayerIndex =
-        (this._playerPointss.indexOf(this._currentPlayerPoints) + 1) %
-        this._playerPointss.length;
-      this._currentPlayerPoints = this._playerPointss[nextPlayerIndex];
+        (this._playerPoints.indexOf(this._currentPlayerPoints) + 1) %
+        this._playerPoints.length;
+      this._currentPlayerPoints = this._playerPoints[nextPlayerIndex];
     }
   }
 }
