@@ -1,30 +1,28 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
 import { useGameStore } from "../stores/game";
-import { computed, onBeforeMount, toRefs } from "vue";
+import { onBeforeMount, toRefs } from "vue";
 import { useSetupStore } from "../stores/setup";
 import BaseButton from "../components/common/BaseButton.vue";
-import { DoubleInRule } from "../classes/rules/DoubleInRule";
-import { DefaultInRule } from "../classes/rules/DefaultInRule";
-import { DoubleOutRule } from "../classes/rules/DoubleOutRule";
-import { DefaultOutRule } from "../classes/rules/DefaultOutRule";
+import { RulesCreator } from "../classes/rules/RulesCreator";
 
 const { players, gameType, doubleIn, doubleOut } = toRefs(useSetupStore());
 const { createGame } = useGameStore();
-const { game, startingPoints } = toRefs(useGameStore());
+const { game } = toRefs(useGameStore());
 const router = useRouter();
 
 onBeforeMount(() => {
-  const inRule = doubleIn.value ? new DoubleInRule() : new DefaultInRule();
-  const outRule = doubleOut.value ? new DoubleOutRule() : new DefaultOutRule();
-  createGame(players.value, gameType.value ?? "Practice", inRule, outRule);
-});
-
-const gameStartingPoints = computed(() => {
-  if (gameType.value != "301" && gameType.value != "501") {
-    return "-";
-  }
-  return startingPoints.value.value;
+  const rules = new RulesCreator(
+    gameType.value,
+    doubleIn.value,
+    doubleOut.value
+  );
+  createGame(
+    players.value,
+    gameType.value,
+    rules.getInRule(),
+    rules.getOutRule()
+  );
 });
 
 const startGame = () => {
@@ -38,7 +36,7 @@ const startGame = () => {
     <div class="flex justify-between">
       <div>
         <div class="text-xl mb-2">Points</div>
-        <div class="text-2xl font-medium">{{ gameStartingPoints }}</div>
+        <div class="text-2xl font-medium">{{ game.getGameType() }}</div>
       </div>
       <div>
         <div class="text-xl mb-2">Players</div>
