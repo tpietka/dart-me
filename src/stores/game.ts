@@ -11,12 +11,10 @@ import { GameType, GameTypes } from "../classes/GameType";
 
 interface GameState {
   game: Game | NullGame;
-  startingPoints: Points;
 }
 export const useGameStore = defineStore("game", {
   state: (): GameState => ({
     game: NullGame.create(Points.zero),
-    startingPoints: Points.zero,
   }),
   getters: {
     pointsLeft(): number {
@@ -44,8 +42,7 @@ export const useGameStore = defineStore("game", {
       return winner;
     },
     removeGame(): void {
-      this.startingPoints = Points.zero;
-      this.game = NullGame.create(this.startingPoints as Points);
+      this.game = NullGame.create(Points.create(0));
     },
     createGame(
       players: string[],
