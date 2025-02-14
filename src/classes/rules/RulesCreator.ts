@@ -7,23 +7,33 @@ import { DoubleInRule } from "./DoubleInRule";
 import { DoubleOutRule } from "./DoubleOutRule";
 
 export class RulesCreator {
-  private _doesRulesApply: boolean = true;
+  private _gameType: GameTypes;
   private _inRule: IInRule;
   private _outRule: IOutRule;
   constructor(gameType: GameTypes, doubleIn: boolean, doubleOut: boolean) {
-    if (gameType === "Practice") {
-      this._doesRulesApply = false;
-    }
-    this._inRule = doubleIn ? new DoubleInRule() : new DefaultInRule();
-    this._outRule = doubleOut ? new DoubleOutRule() : new DefaultOutRule();
-  }
-  public shouldApplyRules(): boolean {
-    return this._doesRulesApply;
+    this._gameType = gameType;
+    this._inRule = this.setInRule(doubleIn);
+    this._outRule = this.setOutRule(doubleOut);
   }
   public getInRule(): IInRule {
     return this._inRule;
   }
   public getOutRule(): IOutRule {
     return this._outRule;
+  }
+  private isPractice(): boolean {
+    return this._gameType === "Practice";
+  }
+  private setInRule(doubleIn: boolean): IInRule {
+    if (doubleIn && !this.isPractice()) {
+      return new DoubleInRule();
+    }
+    return new DefaultInRule();
+  }
+  private setOutRule(doubleOut: boolean): IOutRule {
+    if (doubleOut && !this.isPractice()) {
+      return new DoubleOutRule();
+    }
+    return new DefaultOutRule();
   }
 }
