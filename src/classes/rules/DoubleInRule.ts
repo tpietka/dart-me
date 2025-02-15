@@ -3,8 +3,8 @@ import { IInRule } from "../IInRule";
 import { RuleMessages } from "./RuleMessages";
 
 export class DoubleInRule implements IInRule {
-  private _message: string = RuleMessages.doubleInFail;
-  getMessage(): string {
+  private _message: RuleMessages = RuleMessages.doubleInFail;
+  getMessage(): RuleMessages {
     return this._message;
   }
   public static create(): DoubleInRule {
@@ -12,9 +12,12 @@ export class DoubleInRule implements IInRule {
   }
   public pass(dartThrow: IDartThrow): boolean {
     this._message = RuleMessages.none;
-    return (
-      this.isThrowADouble(dartThrow) && this.isThrowScoreNotZero(dartThrow)
-    );
+    const rulePassed =
+      this.isThrowADouble(dartThrow) && this.isThrowScoreNotZero(dartThrow);
+    if (!rulePassed) {
+      this._message = RuleMessages.doubleInFail;
+    }
+    return rulePassed;
   }
 
   private isThrowADouble(dartThrow: IDartThrow): boolean {

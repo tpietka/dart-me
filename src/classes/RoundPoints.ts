@@ -4,6 +4,7 @@ import { IInRule } from "./IInRule";
 import { Points } from "./valueObjects/Points";
 import { RoundNumber } from "./valueObjects/RoundNumber";
 import { DefaultInRule } from "./rules/DefaultInRule";
+import { RuleMessages } from "./rules/RuleMessages";
 
 export interface IRoundPoints {
   throwsCount: number;
@@ -13,6 +14,7 @@ export interface IRoundPoints {
   hasCompletedRound: boolean;
   throwPoints: IDartThrow[];
   roundNumber: RoundNumber;
+  getMessage: string;
   addThrow(dartThrow: IDartThrow): void;
   hasWon(): boolean;
 }
@@ -20,6 +22,7 @@ export interface IRoundPoints {
 export class RoundPoints {
   private _inRule: IInRule;
   private _outRule: IOutRule;
+  private _roundReviewMessage: RuleMessages = RuleMessages.none;
   private _throws: IDartThrow[] = [];
   private _startingPoints: Points;
   private _pointsLeft: Points = Points.zero;
@@ -79,18 +82,23 @@ export class RoundPoints {
     return this._roundNumber;
   }
 
+  public getMessage(): RuleMessages {
+    return this._roundReviewMessage;
+  }
+
   public addThrow(dartThrow: IDartThrow): void {
     this._throws.push(dartThrow);
     this._pointsLeft = this._pointsLeft.subtract(dartThrow.getScore());
-    if (!this._inRule.pass(dartThrow)) {
-      this.resetPoints();
-      this.nullifyRemainingThrows();
+    if (!this.passInRule(dartThrow)) {
+      this._roundReviewMessage = this._inRule.getMessage();
       return;
     }
     this._inRule = DefaultInRule.create();
     this._hasWon = this._outRule.pass(dartThrow, this._pointsLeft);
+    this._roundReviewMessage = this._outRule.getMessage();
     if (!this._hasWon) {
-      if (this.isBust()) {
+      if (this.isBust(dartThrow)) {
+        this._roundReviewMessage = this._outRule.getMessage();
         this.resetPoints();
         this.nullifyRemainingThrows();
         return;
@@ -98,8 +106,16 @@ export class RoundPoints {
     }
     this.calculatePointsScored();
   }
-  private isBust(): boolean {
-    return this._outRule.isBust(this._pointsLeft);
+  private passInRule(dartThrow: IDartThrow): boolean {
+    if (!this._inRule.pass(dartThrow)) {
+      this.resetPoints();
+      this.nullifyRemainingThrows();
+      return false;
+    }
+    return true;
+  }
+  private isBust(dartThrow: IDartThrow): boolean {
+    return this._outRule.isBust(this._pointsLeft, dartThrow);
   }
   private resetPoints(): void {
     this._pointsLeft = this._startingPoints;

@@ -9,7 +9,7 @@ import PointsLeft from "../components/PointsLeft.vue";
 import PointsScored from "../components/PointsScored.vue";
 
 const { currentPlayer } = toRefs(useGameStore());
-const { startRoundForPlayer } = useGameStore();
+const { startRoundForPlayer, getMessage } = useGameStore();
 const router = useRouter();
 const nextPlayer = () => {
   startRoundForPlayer();
@@ -30,6 +30,8 @@ const nextPlayer = () => {
     <points-scored :points-scored="currentPlayer?.scoredPoints.value" />
     <points-left :points-left="currentPlayer?.pointsLeft.value" />
   </div>
-
+  <div class="mt-4 border border-red-500 p-2" v-if="getMessage()">
+    {{ getMessage() }}
+  </div>
   <base-button class="mt-6" @click="nextPlayer">Next</base-button>
 </template>

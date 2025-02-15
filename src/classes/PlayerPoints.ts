@@ -17,6 +17,7 @@ export interface IPlayerPoints {
   scoredPoints: Points;
   throwNumber: number;
   addThrow(dartThrow: IDartThrow): void;
+  getRoundReviewMessage(): string;
   hasWon(): boolean;
   hasCompletedRound(roundNumber: RoundNumber): boolean;
   addRound(roundNumber: RoundNumber): void;
@@ -65,7 +66,9 @@ export class PlayerPoints {
   public get throwNumber(): number {
     return this.getActiveRoundPoints().throwNumber;
   }
-
+  public getRoundReviewMessage(): string {
+    return this.getActiveRoundPoints().getMessage();
+  }
   public addThrow(dartThrow: IDartThrow) {
     if (this.hasWon()) {
       throw new Error("Player has already won");

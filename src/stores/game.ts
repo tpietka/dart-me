@@ -34,6 +34,9 @@ export const useGameStore = defineStore("game", {
     },
   },
   actions: {
+    getMessage(): string {
+      return this.game.getCurrentPlayer()?.getRoundReviewMessage();
+    },
     getWinner(): IPlayer | null {
       const winner = this.game?.getWinner();
       if (!winner) {

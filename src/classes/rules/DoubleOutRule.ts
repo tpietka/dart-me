@@ -5,8 +5,8 @@ import { RuleMessages } from "./RuleMessages";
 
 export class DoubleOutRule implements IOutRule {
   private _minimalPointsLeftToWin: Points = Points.create(2);
-  private _message: string = RuleMessages.none;
-  getMessage(): string {
+  private _message: RuleMessages = RuleMessages.none;
+  getMessage(): RuleMessages {
     return this._message;
   }
   public static create(): DoubleOutRule {
@@ -14,14 +14,18 @@ export class DoubleOutRule implements IOutRule {
   }
 
   public pass(dartThrow: IDartThrow, pointsLeft: Points): boolean {
-    this._message = RuleMessages.gameWon;
+    this._message = RuleMessages.none;
     if (this.hasWon(dartThrow, pointsLeft)) {
+      this._message = RuleMessages.gameWon;
       return true;
     }
     return false;
   }
-  public isBust(pointsLeft: Points) {
+  public isBust(pointsLeft: Points, dartThrow: IDartThrow) {
     this._message = RuleMessages.bust;
+    if (pointsLeft.isZero() && !dartThrow.isDouble()) {
+      this._message = RuleMessages.doubleOutFail;
+    }
     return pointsLeft.isLowerThan(this._minimalPointsLeftToWin);
   }
   private hasWon(dartThrow: IDartThrow, pointsLeft: Points): boolean {

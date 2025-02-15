@@ -2,8 +2,8 @@ import { IInRule } from "../IInRule";
 import { RuleMessages } from "./RuleMessages";
 
 export class DefaultInRule implements IInRule {
-  private _message: string = RuleMessages.none;
-  getMessage(): string {
+  private _message: RuleMessages = RuleMessages.none;
+  getMessage(): RuleMessages {
     return this._message;
   }
   public static create(): DefaultInRule {

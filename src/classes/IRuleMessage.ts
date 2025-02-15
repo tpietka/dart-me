@@ -1,3 +1,5 @@
+import { RuleMessages } from "./rules/RuleMessages";
+
 export interface IRuleMessage {
-  getMessage(): string;
+  getMessage(): RuleMessages;
 }
