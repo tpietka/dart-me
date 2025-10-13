@@ -1980,7 +1980,7 @@ onMounted(() => {
           gradientUnits="userSpaceOnUse"
           gradientTransform="translate(255.227 123.539) scale(13.6482 13.6482)"
         >
-          <stop offset="1" class="eightteen-three" stop-color="#C22C29" />
+          <stop offset="1" class="eighteen-three" stop-color="#C22C29" />
         </radialGradient>
         <radialGradient
           id="paint95_radial_13_282"
