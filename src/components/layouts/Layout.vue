@@ -15,13 +15,13 @@ const navigateHome = () => {
 </script>
 
 <template>
-  <div
-    class="flex justify-between items-center fixed top-0 left-0 right-0 py-4 px-8 h-[60px] bg-slate-800"
-  >
-    <span class="text-3xl" @click="navigateHome">Home</span>
-    <span class="text-3xl">
-      {{ gameTypeName }}
-    </span>
+  <div class="fixed top-0 left-0 right-0 py-4 px-8 h-[60px] bg-slate-800">
+    <div class="flex justify-between items-center max-w-3xl m-auto">
+      <span class="text-3xl" @click="navigateHome">Home</span>
+      <span class="text-3xl">
+        {{ gameTypeName }}
+      </span>
+    </div>
   </div>
   <h1 class="text-2xl mb-6">
     {{ $route.meta.title }}
