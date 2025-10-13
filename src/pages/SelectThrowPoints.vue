@@ -3,6 +3,7 @@ import { useRouter } from "vue-router";
 import { useGameStore } from "../stores/game";
 import { DartThrow, IDartThrow } from "../classes/DartThrow";
 import { computed, ref, toRefs } from "vue";
+import PointsScored from "../components/PointsScored.vue";
 import BaseButton from "../components/common/BaseButton.vue";
 import ThrowPoints from "../components/ThrowPoints.vue";
 import ThrowMultiplier from "../components/ThrowMultiplier.vue";
@@ -83,7 +84,11 @@ const score = computed(() => {
     >
   </div>
   <div class="my-4">
-    {{ `Scored points: ${score}` }}
+    {{ `Current throw points: ${score}` }}
   </div>
+  <points-scored
+    class="mb-3"
+    :points-scored="currentPlayer?.scoredPoints.value"
+  />
   <base-button @click="saveThrow()">Save</base-button>
 </template>

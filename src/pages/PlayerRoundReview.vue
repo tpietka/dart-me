@@ -27,7 +27,9 @@ const nextPlayer = () => {
   <dart-board :points="currentPlayer?.throwPoints" />
   <round-throws :dart-throws="currentPlayer?.throwPoints" />
   <div class="flex justify-between">
-    <points-scored :points-scored="currentPlayer?.scoredPoints.value" />
+    <points-scored :points-scored="currentPlayer?.scoredPoints.value"
+      >Points scored</points-scored
+    >
     <points-left :points-left="currentPlayer?.pointsLeft.value" />
   </div>
   <div class="mt-4 border border-red-500 p-2" v-if="getMessage()">
