@@ -28,6 +28,10 @@ export class DoubleOutRule implements IOutRule {
     }
     return pointsLeft.isLowerThan(this._minimalPointsLeftToWin);
   }
+  public isValidFinish(dartThrow: IDartThrow, pointsLeft: Points): boolean {
+    this._message = RuleMessages.none;
+    return this.hasWon(dartThrow, pointsLeft);
+  }
   private hasWon(dartThrow: IDartThrow, pointsLeft: Points): boolean {
     return pointsLeft.isZero() && dartThrow.isDouble();
   }

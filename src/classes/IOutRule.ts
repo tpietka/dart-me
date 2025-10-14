@@ -5,4 +5,5 @@ import { Points } from "./valueObjects/Points";
 export interface IOutRule extends IRuleMessage {
   isBust(_pointsLeft: Points, dartThrow: IDartThrow): boolean;
   pass(dartThrow: IDartThrow, pointsLeft: Points): boolean;
+  isValidFinish(dartThrow: IDartThrow, pointsLeft: Points): boolean;
 }

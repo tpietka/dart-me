@@ -14,7 +14,15 @@ export class DefaultOutRule implements IOutRule {
   }
 
   public pass(dartThrow: IDartThrow, pointsLeft: Points): boolean {
-    this._message = RuleMessages.gameWon;
+    this._message = RuleMessages.none;
+    if (this.hasWon(dartThrow, pointsLeft)) {
+      this._message = RuleMessages.gameWon;
+      return true;
+    }
+    return false;
+  }
+  public isValidFinish(dartThrow: IDartThrow, pointsLeft: Points): boolean {
+    this._message = RuleMessages.none;
     return this.hasWon(dartThrow, pointsLeft);
   }
   public isBust(pointsLeft: Points) {
