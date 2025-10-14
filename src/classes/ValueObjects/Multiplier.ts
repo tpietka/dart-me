@@ -2,7 +2,7 @@ export class Multiplier {
   private _value: number;
   public static single = Multiplier.create(1);
   public static double = Multiplier.create(2);
-  public static triple = Multiplier.create(3);
+  public static treble = Multiplier.create(3);
 
   private constructor(value: number) {
     this._value = value;

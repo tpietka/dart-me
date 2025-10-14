@@ -8,6 +8,8 @@ export interface IDartThrow {
   setMultiplier(multiplier: number): void;
   getScore(): number;
   isDouble(): boolean;
+  isEmpty(): boolean;
+  equals(otherThrow: IDartThrow): boolean;
 }
 
 export class DartThrow implements IDartThrow {
@@ -49,10 +51,16 @@ export class DartThrow implements IDartThrow {
   public isDouble(): boolean {
     return this._multiplier.equals(Multiplier.double);
   }
+  public isEmpty(): boolean {
+    return this.points === 0 && this.multiplier === 1;
+  }
+  public equals(otherThrow: IDartThrow): boolean {
+    return this._points.value === otherThrow.points && this._multiplier.value === otherThrow.multiplier;
+  }
   private isPointsWithInvalidMultiplier(): boolean {
     return (
       (this._points.value === 25 &&
-        this._multiplier.equals(Multiplier.triple)) ||
+        this._multiplier.equals(Multiplier.treble)) ||
       (this._points.value === 0 && !this._multiplier.equals(Multiplier.single))
     );
   }
