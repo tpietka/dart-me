@@ -22,6 +22,10 @@ export class DoubleOutRule implements IOutRule {
     return false;
   }
   public isBust(pointsLeft: Points, dartThrow: IDartThrow) {
+    if (pointsLeft.value === 1) {
+      this._message = RuleMessages.cannotFinishOnOne;
+      return true;
+    }
     this._message = RuleMessages.bust;
     if (pointsLeft.isZero() && !dartThrow.isDouble()) {
       this._message = RuleMessages.doubleOutFail;
