@@ -10,7 +10,7 @@ import ThrowMultiplier from "../components/ThrowMultiplier.vue";
 import PointsLeft from "../components/PointsLeft.vue";
 import PlayerThrowing from "../components/PlayerThrowing.vue";
 
-const { currentPlayer, round, pointsLeft, throwNumber } = toRefs(
+const { currentPlayer, round, pointsLeft, throwNumber, suggestedNextThrow } = toRefs(
   useGameStore()
 );
 const { addDartThrow } = useGameStore();
@@ -59,28 +59,28 @@ const score = computed(() => {
     <throw-points
       v-for="point in dartPoints"
       :key="point"
-      :class="[{ 'bg-red-800': point === dartThrow.points }]"
+      :class="[{ 'bg-red-800': point === dartThrow.points }, {'bg-orange-400': point === suggestedNextThrow.points && !suggestedNextThrow.isEmpty() }]"
       @click="setPoints(point)"
       >{{ point }}</throw-points
     >
   </div>
   <div class="flex flex-wrap justify-center gap-2 mt-4">
     <throw-multiplier
-      :class="[{ 'bg-red-800': 1 === dartThrow.multiplier }]"
+      :class="[{ 'bg-red-800': 1 === dartThrow.multiplier }, {'bg-orange-400': 1 === suggestedNextThrow.multiplier && !suggestedNextThrow.isEmpty() && suggestedNextThrow.points === dartThrow.points}]"
       @click="setMultiplier(1)"
       >Single</throw-multiplier
     >
     <throw-multiplier
       v-if="dartThrow.points <= 25 && dartThrow.points > 0"
-      :class="[{ 'bg-red-800': 2 === dartThrow.multiplier }]"
+      :class="[{ 'bg-red-800': 2 === dartThrow.multiplier }, {'bg-orange-400': 2 === suggestedNextThrow.multiplier && !suggestedNextThrow.isEmpty() && suggestedNextThrow.points === dartThrow.points}]"
       @click="setMultiplier(2)"
       >Double</throw-multiplier
     >
     <throw-multiplier
       v-if="dartThrow.points <= 20 && dartThrow.points > 0"
-      :class="[{ 'bg-red-800': 3 === dartThrow.multiplier }]"
+      :class="[{ 'bg-red-800': 3 === dartThrow.multiplier }, {'bg-orange-400': 3 === suggestedNextThrow.multiplier && !suggestedNextThrow.isEmpty() && suggestedNextThrow.points === dartThrow.points}]"
       @click="setMultiplier(3)"
-      >Triple</throw-multiplier
+      >Treble</throw-multiplier
     >
   </div>
   <div class="my-4">

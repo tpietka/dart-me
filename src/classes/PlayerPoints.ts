@@ -1,4 +1,4 @@
-import { IDartThrow } from "./DartThrow";
+import { DartThrow, IDartThrow } from "./DartThrow";
 import { IInRule } from "./IInRule";
 import { IOutRule } from "./IOutRule";
 import { IPlayer, Player } from "./Player";
@@ -7,6 +7,8 @@ import { DefaultInRule } from "./rules/DefaultInRule";
 import { DefaultOutRule } from "./rules/DefaultOutRule";
 import { Points } from "./valueObjects/Points";
 import { RoundNumber } from "./valueObjects/RoundNumber";
+import { DisabledThrowAdviser } from "./rules/DisabledThrowAdviser";
+import { IThrowAdviser } from "./IThrowAdviser";
 
 export interface IPlayerPoints {
   playerName: string;
@@ -15,6 +17,7 @@ export interface IPlayerPoints {
   pointsLeft: Points;
   throwPoints: IDartThrow[];
   scoredPoints: Points;
+  suggestedNextThrow: IDartThrow;
   throwNumber: number;
   addThrow(dartThrow: IDartThrow): void;
   getRoundReviewMessage(): string;
@@ -26,6 +29,8 @@ export interface IPlayerPoints {
 export class PlayerPoints {
   private _player: IPlayer;
   private _points: RoundPoints[] = [];
+  private _suggestedNextThrow?: IDartThrow;
+  private _nextThrowCalculator: IThrowAdviser;
   private readonly _startingPoints: Points;
   private readonly _inRule: IInRule;
   private readonly _outRule: IOutRule;
@@ -34,14 +39,19 @@ export class PlayerPoints {
     player: IPlayer,
     startingPoints: Points,
     inRule: IInRule,
-    outRule: IOutRule
+    outRule: IOutRule,
+    dartThrowCalculator: IThrowAdviser
   ) {
     this._player = player;
     this._startingPoints = startingPoints;
     this._inRule = inRule;
     this._outRule = outRule;
+    this._nextThrowCalculator = dartThrowCalculator;
   }
 
+  public get suggestedNextThrow(): IDartThrow {
+    return this._suggestedNextThrow ?? DartThrow.empty();
+  }
   public get roundNumber(): RoundNumber {
     return this.getActiveRoundPoints().roundNumber;
   }
@@ -83,11 +93,13 @@ export class PlayerPoints {
     }
 
     this.getActiveRoundPoints().addThrow(dartThrow);
+    this.calculateNextThrow();
   }
   public hasWon() {
     return this._points.some((round) => round.hasWon);
   }
   public hasCompletedRound(roundNumber: RoundNumber): boolean {
+    this.calculateNextThrow();
     return (
       this._points.find((roundPoints) =>
         roundPoints.roundNumber.equals(roundNumber)
@@ -122,6 +134,9 @@ export class PlayerPoints {
       this._outRule
     );
   }
+  private calculateNextThrow() {
+    this._suggestedNextThrow = this._nextThrowCalculator.suggest(this.pointsLeft.value, 3 - this.throwPoints.length);
+  }
   private hasCompletedActiveRound() {
     return this.getActiveRoundPoints().hasCompletedRound ?? false;
   }
@@ -133,7 +148,8 @@ export class NullPlayerPoints extends PlayerPoints implements IPlayerPoints {
       new Player("Nodody"),
       Points.zero,
       DefaultInRule.create(),
-      DefaultOutRule.create()
+      DefaultOutRule.create(),
+      new DisabledThrowAdviser()
     );
   }
   public get pointsLeft(): Points {

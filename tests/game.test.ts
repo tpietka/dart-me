@@ -6,14 +6,16 @@ import { ThrowResult } from "../src/classes/ThrowResult";
 import { DefaultInRule } from "../src/classes/rules/DefaultInRule";
 import { DoubleOutRule } from "../src/classes/rules/DoubleOutRule";
 import { GameType } from "../src/classes/GameType";
+import { DisabledThrowAdviser } from "../src/classes/rules/DisabledThrowAdviser";
 
 describe("Game Class", () => {
   let game: IGame;
   let inRule = DefaultInRule.create();
   let outRule = DoubleOutRule.create();
+  let dartThrowCalculator = new DisabledThrowAdviser();
 
   beforeEach(() => {
-    game = Game.create(new GameType("301"), inRule, outRule);
+    game = Game.create(new GameType("301"), inRule, outRule, dartThrowCalculator);
   });
 
   test("should add players to the game", () => {

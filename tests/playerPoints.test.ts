@@ -2,6 +2,7 @@ import { DartThrow } from "../src/classes/DartThrow";
 import { Player } from "../src/classes/Player";
 import { PlayerPoints } from "../src/classes/PlayerPoints";
 import { DefaultInRule } from "../src/classes/rules/DefaultInRule";
+import { DisabledThrowAdviser } from "../src/classes/rules/DisabledThrowAdviser";
 import { DoubleInRule } from "../src/classes/rules/DoubleInRule";
 import { DoubleOutRule } from "../src/classes/rules/DoubleOutRule";
 import { Points } from "../src/classes/valueObjects/Points";
@@ -17,7 +18,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       inRule,
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -38,7 +40,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       inRule,
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -59,7 +62,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       inRule,
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -80,7 +84,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       inRule,
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -103,7 +108,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       inRule,
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -127,7 +133,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -146,7 +153,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -170,7 +178,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -198,7 +207,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -237,7 +247,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act
@@ -256,7 +267,8 @@ describe("test PlayerPointsManager class", () => {
       new Player("Rob"),
       Points.create(501),
       DoubleInRule.create(),
-      outRule
+      outRule,
+      DisabledThrowAdviser.create()
     );
 
     //Act

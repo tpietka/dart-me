@@ -3,6 +3,7 @@ import { IDartThrow } from "./DartThrow";
 import { GameType } from "./GameType";
 import { IInRule } from "./IInRule";
 import { IOutRule } from "./IOutRule";
+import { IThrowAdviser } from "./IThrowAdviser";
 import { IPlayer } from "./Player";
 import { IPlayerPoints, NullPlayerPoints, PlayerPoints } from "./PlayerPoints";
 import { ThrowResult } from "./ThrowResult";
@@ -28,22 +29,26 @@ export class Game implements IGame {
   private _roundNumber: RoundNumber = RoundNumber.create();
   private _startingPoints: Points;
   private _gameType: GameType;
+  private _dartThrowAdviser: IThrowAdviser;
 
   private constructor(
     gameType: GameType,
     private inRule: IInRule,
-    private outRule: IOutRule
+    private outRule: IOutRule,
+    dartThrowCalculator: IThrowAdviser
   ) {
     this._gameType = gameType;
     this._startingPoints = gameType.getStartingPoints();
     this._currentPlayerPoints = NullPlayerPoints.create();
+    this._dartThrowAdviser = dartThrowCalculator;
   }
   public static create(
     gameType: GameType,
     inRule: IInRule,
-    outRule: IOutRule
+    outRule: IOutRule,
+    dartThrowCalculator: IThrowAdviser
   ): Game {
-    return new Game(gameType, inRule, outRule);
+    return new Game(gameType, inRule, outRule, dartThrowCalculator);
   }
   public get roundNumber(): RoundNumber {
     return this._roundNumber;
@@ -59,7 +64,8 @@ export class Game implements IGame {
       player,
       this._startingPoints,
       this.inRule,
-      this.outRule
+      this.outRule,
+      this._dartThrowAdviser
     );
     this._playerPoints.push(manager);
   }

@@ -6,7 +6,7 @@ import { useSetupStore } from "../stores/setup";
 import BaseButton from "../components/common/BaseButton.vue";
 import { RulesCreator } from "../classes/rules/RulesCreator";
 
-const { players, gameType, doubleIn, doubleOut } = toRefs(useSetupStore());
+const { players, gameType, doubleIn, doubleOut, throwSuggestion } = toRefs(useSetupStore());
 const { createGame } = useGameStore();
 const { game } = toRefs(useGameStore());
 const router = useRouter();
@@ -15,13 +15,15 @@ onBeforeMount(() => {
   const rules = new RulesCreator(
     gameType.value,
     doubleIn.value,
-    doubleOut.value
+    doubleOut.value,
+    throwSuggestion.value
   );
   createGame(
     players.value,
     gameType.value,
     rules.getInRule(),
-    rules.getOutRule()
+    rules.getOutRule(),
+    rules.getThrowAdviser()
   );
 });
 

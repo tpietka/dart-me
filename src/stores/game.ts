@@ -8,6 +8,7 @@ import { IPlayerPoints } from "../classes/PlayerPoints";
 import { IInRule } from "../classes/IInRule";
 import { IOutRule } from "../classes/IOutRule";
 import { GameType, GameTypes } from "../classes/GameType";
+import { IThrowAdviser } from "../classes/IThrowAdviser";
 
 interface GameState {
   game: Game | NullGame;
@@ -17,6 +18,9 @@ export const useGameStore = defineStore("game", {
     game: NullGame.create(Points.zero),
   }),
   getters: {
+    suggestedNextThrow(): IDartThrow {
+      return this.game.getCurrentPlayer()?.suggestedNextThrow;
+    },
     pointsLeft(): number {
       return this.game.getCurrentPlayer()?.pointsLeft.value ?? 1;
     },
@@ -51,9 +55,10 @@ export const useGameStore = defineStore("game", {
       players: string[],
       gameType: GameTypes,
       inRule: IInRule,
-      outRule: IOutRule
+      outRule: IOutRule,
+      dartThrowAdviser: IThrowAdviser
     ): void {
-      this.game = Game.create(new GameType(gameType), inRule, outRule);
+      this.game = Game.create(new GameType(gameType), inRule, outRule, dartThrowAdviser);
       this.createPlayers(players);
     },
     createPlayers(players: string[]): void {
