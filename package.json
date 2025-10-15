@@ -10,24 +10,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "pinia": "^2.3.0",
+    "@tailwindcss/postcss": "^4.1.14",
+    "pinia": "^3.0.3",
     "pinia-plugin-persistedstate": "^4.2.0",
     "to-words": "^4.2.0",
     "vue": "^3.5.13",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.6.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.14",
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@types/jest": "^30.0.0",
+    "@vitejs/plugin-vue": "^6.0.1",
     "@vue/test-utils": "^2.4.6",
     "autoprefixer": "^10.4.20",
-    "jest": "^29.7.0",
+    "jest": "^30.2.0",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.14",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
-    "typescript": "~5.6.2",
-    "vite": "^6.0.1",
-    "vue-tsc": "^2.1.10"
+    "typescript": "^5.9.3",
+    "vite": "^7.1.10",
+    "vue-tsc": "^3.1.1"
   }
 }
