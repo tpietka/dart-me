@@ -6,7 +6,7 @@ export class DisabledThrowAdviser implements IThrowAdviser {
         return new DisabledThrowAdviser();
     }
 
-    suggest(pointsLeft: number, dartsLeft: number = 3): IDartThrow {
+    suggest(_pointsLeft: number, _dartsLeft: number = 3): IDartThrow {
         return DartThrow.empty();
     }
 }
